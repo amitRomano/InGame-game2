@@ -10,6 +10,10 @@ image livingroom_lit_bg = "fireplace_lit.jpg"
 image kitchen_bg = "kitchen_match.jpg"
 image outside_bg = "outside_wood.jpg"
 image inside_bg = "room_empty.png"
+image eileen happy = "eileen happy.png"
+image eileen sad = "eileen concerned.png"
+image eileen surprised = "eileen vhappy.png"
+
 
 init python:
     
@@ -101,12 +105,27 @@ label start:
     
     
     $ inventory = []
+    
+    ### Transition from mm_root to girls_room.jpg ###
+    
     scene outside_bg
     
     
-    "You are trapped in a freezing cabin."
+    show eileen happy at left
+    "Mysterious Girl" "Good morning! I had a really great time last night. I’m going to get milk for coffee, be back in 5 minutes."
     
-    "You must light a fire or you will die!!!!!"
+    show eileen surprised at left
+    "Mysterious Girl" "Feel at home."
+    
+    hide eileen
+    
+    "You think to yourself..."
+    
+    "Where the heck am I? Who was this girl just now?!"
+    
+    "She was hot though.\n
+     ...What happened last night?"
+    
     show screen inventory_screen
 
 label living:
