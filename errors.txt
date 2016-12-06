@@ -2,8 +2,8 @@
 errors listed below, and try again.
 
 
-File "game/script.rpy", line 193: u'gridcount' is not a keyword argument or valid child for the screen statement.
-    gridcount = 5
-             ^
+File "game/script.rpy", line 132: Line is indented, but the preceding with statement statement does not expect a block. Please check this line's indentation.
+    $ renpy.pause(3.0)
+    ^
 
 Ren'Py Version: Ren'Py 6.99.11.1749

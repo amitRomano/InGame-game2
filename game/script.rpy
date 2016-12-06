@@ -5,7 +5,10 @@
 # eg. image eileen happy = "eileen_happy.png"
 
 image sexroom_floor = "backgrounds/sexroom_floor.png"
-
+image partySceneImage = "backgrounds/party_scene.png"
+image mysteryImage = "backgrounds/mysteryshot.png"
+image ceilingImage = "backgrounds/sexroom_ceiling.png"
+image sexroomImage = "backgrounds/sexroom_floor.png"
 
 
 
@@ -30,7 +33,7 @@ init python:
             return self.name == other.name
     
     class Notebook(Item):
-        w, h = 4, 5. 
+        w, h = 8, 5 
         Matrix = [[0 for x in range(w)] for y in range(h)]
         def __init__(self, name,image_name):
             super(self,name,image_name)
@@ -101,11 +104,38 @@ init python:
 
 label start:
     $ inventory = []
-    scene sexroom_floor
-    "Hello World"
-    show screen inventory_screen
 
-label this_happens_immediately_after_start:
+label partySceneLabel:
+    scene partySceneImage
+    "Angie" "Wow, this party is so much fun!"
+    "Roxanne" "I'm having a great time right now!"
+    "Lucy" "All of this alcohol sure is swell."
+    "Joelene" "I'M SUPER WASTEEEEED"
+    scene mysteryImage
+    with dissolve
+    "???" "Dude, I'm so glad we invited you over...\n"
+    "???" "So...how about we go back to my room now?"
+
+label wakeUpLabel:
+    scene ceilingImage:
+        yalign 0.5
+    with dissolve
+    "W...Where am I?"
+    "What am I doing here?"
+    "Wait, I'm in someone's bed...\n
+     Fuck. I can't remember who I slept with last night."
+    "FUCK!!"
+    "Better start searching for clues then..."
+    show sexroomImage:
+        yalign 1.0 yanchor 0.0        # pic_2 will be placed at right offscreen
+    with None
+
+    show ceilingImage:
+        yalign 0.0 yanchor 1.0        # pic_1 will be placed at left offscreen
+    show sexroomImage:
+        yalign 0.5
+    with MoveTransition(1)                         # will change positions of all images above it
+    show screen inventory_screen
     call screen experiment_screen
 
 
@@ -177,6 +207,9 @@ screen experiment_screen:
 
 ###### SPECIAL SCREEN DEFINITIONS - DO NOT TOUCH ######
 
+screen sexroom:
+    on "hide" action Hide("displayTextScreen")
+    
 screen displayTextScreen:  
     default displayText = ""
     vbox:
@@ -188,7 +221,7 @@ screen displayTextScreen:
 screen inventory_screen:
     zorder 100
     #a sexy grid
-    $ num = 10
+    $ num = 4
     frame:
         grid 1 num:
         
