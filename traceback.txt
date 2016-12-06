@@ -1,29 +1,24 @@
 ﻿I'm sorry, but an uncaught exception occurred.
 
-While loading <'Image' 'eileen1.png'>:
-  File "game/script.rpy", line 112, in script
-    "Mysterious Girl" "Good morning! I had a really great time last night. I’m going to get milk for coffee, be back in 5 minutes. Feel at home."
-  File "renpy/common/00library.rpy", line 252, in say
-    who(what, interact=interact)
-IOError: Couldn't find file 'eileen1.png'.
+While loading <'Image' 'iventory/vibrator.png'>:
+  File "renpy/common/000statements.rpy", line 471, in execute_call_screen
+    store._return = renpy.call_screen(name, *args, **kwargs)
+IOError: Couldn't find file 'iventory/vibrator.png'.
 
 -- Full Traceback ------------------------------------------------------------
 
 Full traceback:
-  File "game/script.rpy", line 112, in script
-    "Mysterious Girl" "Good morning! I had a really great time last night. I’m going to get milk for coffee, be back in 5 minutes. Feel at home."
-  File "C:\Users\idowo\Downloads\renpy-6.99.11-sdk\renpy\ast.py", line 603, in execute
-    renpy.exports.say(who, what, interact=self.interact)
-  File "C:\Users\idowo\Downloads\renpy-6.99.11-sdk\renpy\exports.py", line 1133, in say
-    renpy.store.say(who, what, interact=interact)
-  File "renpy/common/00library.rpy", line 252, in say
-    who(what, interact=interact)
-  File "C:\Users\idowo\Downloads\renpy-6.99.11-sdk\renpy\character.py", line 873, in __call__
-    self.do_display(who, what, cb_args=self.cb_args, **display_args)
-  File "C:\Users\idowo\Downloads\renpy-6.99.11-sdk\renpy\character.py", line 719, in do_display
-    **display_args)
-  File "C:\Users\idowo\Downloads\renpy-6.99.11-sdk\renpy\character.py", line 510, in display_say
-    rv = renpy.ui.interact(mouse='say', type=type, roll_forward=roll_forward)
+  File "lib/windows-i686/script.rpyc", line 102, in script
+  File "C:\Users\idowo\Downloads\renpy-6.99.11-sdk\renpy\ast.py", line 1696, in execute
+    self.call("execute")
+  File "C:\Users\idowo\Downloads\renpy-6.99.11-sdk\renpy\ast.py", line 1714, in call
+    return renpy.statements.call(method, parsed, *args, **kwargs)
+  File "C:\Users\idowo\Downloads\renpy-6.99.11-sdk\renpy\statements.py", line 144, in call
+    return method(parsed, *args, **kwargs)
+  File "renpy/common/000statements.rpy", line 471, in execute_call_screen
+    store._return = renpy.call_screen(name, *args, **kwargs)
+  File "C:\Users\idowo\Downloads\renpy-6.99.11-sdk\renpy\exports.py", line 2496, in call_screen
+    rv = renpy.ui.interact(mouse="screen", type="screen", roll_forward=roll_forward)
   File "C:\Users\idowo\Downloads\renpy-6.99.11-sdk\renpy\ui.py", line 278, in interact
     rv = renpy.game.interface.interact(roll_forward=roll_forward, **kwargs)
   File "C:\Users\idowo\Downloads\renpy-6.99.11-sdk\renpy\display\core.py", line 2496, in interact
@@ -54,14 +49,22 @@ Full traceback:
     cpdef render(d, object widtho, object heighto, double st, double at):
   File "renpy/display/render.pyx", line 185, in renpy.display.render.render (gen\renpy.display.render.c:2857)
     rv = d.render(widtho, heighto, st, at)
-  File "renpy/display/accelerator.pyx", line 108, in renpy.display.accelerator.transform_render (gen\renpy.display.accelerator.c:2027)
-    cr = render(child, widtho, heighto, st - self.child_st_base, at)
+  File "C:\Users\idowo\Downloads\renpy-6.99.11-sdk\renpy\display\screen.py", line 618, in render
+    child = renpy.display.render.render(self.child, w, h, st, at)
+  File "renpy/display/render.pyx", line 103, in renpy.display.render.render (gen\renpy.display.render.c:3319)
+    cpdef render(d, object widtho, object heighto, double st, double at):
   File "renpy/display/render.pyx", line 185, in renpy.display.render.render (gen\renpy.display.render.c:2857)
     rv = d.render(widtho, heighto, st, at)
-  File "C:\Users\idowo\Downloads\renpy-6.99.11-sdk\renpy\display\image.py", line 255, in render
-    return wrap_render(self.target, width, height, st, at)
-  File "C:\Users\idowo\Downloads\renpy-6.99.11-sdk\renpy\display\image.py", line 124, in wrap_render
-    rend = render(child, w, h, st, at)
+  File "C:\Users\idowo\Downloads\renpy-6.99.11-sdk\renpy\display\layout.py", line 661, in render
+    surf = render(child, width, height, cst, cat)
+  File "renpy/display/render.pyx", line 103, in renpy.display.render.render (gen\renpy.display.render.c:3319)
+    cpdef render(d, object widtho, object heighto, double st, double at):
+  File "renpy/display/render.pyx", line 185, in renpy.display.render.render (gen\renpy.display.render.c:2857)
+    rv = d.render(widtho, heighto, st, at)
+  File "C:\Users\idowo\Downloads\renpy-6.99.11-sdk\renpy\display\behavior.py", line 686, in render
+    rv = super(Button, self).render(width, height, st, at)
+  File "C:\Users\idowo\Downloads\renpy-6.99.11-sdk\renpy\display\layout.py", line 1046, in render
+    st, at)
   File "renpy/display/render.pyx", line 103, in renpy.display.render.render (gen\renpy.display.render.c:3319)
     cpdef render(d, object widtho, object heighto, double st, double at):
   File "renpy/display/render.pyx", line 185, in renpy.display.render.render (gen\renpy.display.render.c:2857)
@@ -74,7 +77,7 @@ Full traceback:
     surf = renpy.display.pgrender.load_image(renpy.loader.load(self.filename), self.filename)
   File "C:\Users\idowo\Downloads\renpy-6.99.11-sdk\renpy\loader.py", line 536, in load
     raise IOError("Couldn't find file '%s'." % name)
-IOError: Couldn't find file 'eileen1.png'.
+IOError: Couldn't find file 'iventory/vibrator.png'.
 
 Windows-8-6.2.9200
 Ren'Py 6.99.11.1749
