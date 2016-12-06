@@ -28,6 +28,14 @@ init python:
                                         (0, 0), image_name)
         def __eq__(self, other):
             return self.name == other.name
+    
+    class Notebook(Item):
+        w, h = 4, 5. 
+        Matrix = [[0 for x in range(w)] for y in range(h)]
+        def __init__(self, name,image_name):
+            super(self,name,image_name)
+            
+            
 
     class testItem(Action):
 
@@ -77,7 +85,9 @@ init python:
 
 ###### ITEM DEFINITIONS ########
     iVibrator = Item("Vibrator","inventory/vibrator.png")
-    iMatch = Item("Match","inventory/match.png")
+    iSmokeNote = Item("SmokeNote","inventory/SmokeNote.png")
+    iDanceNote = Item("DanceNote","inventory/DanceNote.png")
+    iBrunetteNote = Item("BrunetteNote","inventory/BrunetteNote.png")
 
 init python:
     def inventory_dragged(drags, drop):
@@ -114,9 +124,18 @@ screen experiment_screen:
     on "hide" action Hide("displayTextScreen")
     add "backgrounds/sexroom_floor.png"
     
+    screen grid_test:
+     grid 2 3:
+         text "Top-Left"
+         text "Top-Right"
+
+         text "Center-Left"
+         text "Center-Right"
+
+         text "Bottom-Left"
+         text "Bottom-Right"
     
-    
-# Inventory item that's added to the inventory by itself and disappears
+    # Inventory item that's added to the inventory by itself and disappears
     if iVibrator not in inventory:
         imagebutton:
             xanchor 0.5
@@ -131,20 +150,20 @@ screen experiment_screen:
 
 
 
-# Static item (furniture) that adds info to the inventory
+    # Static item (furniture) that adds info to the inventory
     imagebutton:
         xanchor 0.5
         yanchor 0.5
         xpos 200
         ypos 200
-        idle iMatch.image_name
-        if iMatch not in inventory:
-            hover iMatch.hover_image
-            action [Hide("displayTextScreen"),addItem(iMatch)]
+        idle iVibrator.image_name
+        if iVibrator not in inventory:
+            hover iVibrator.hover_image
+            action [Hide("displayTextScreen"),addItem(iVibrator)]
             hovered Show("displayTextScreen", displayText = "Better not burn yourself.") 
             unhovered Hide("displayTextScreen")
         else:
-            action [Hide("displayTextScreen")]
+            action [Hide("displayTextScreen"),addItem(iVibrator)]
             hovered Show("displayTextScreen", displayText = "Careful, I've been burned before!") 
             unhovered Hide("displayTextScreen")
             
@@ -166,15 +185,14 @@ screen displayTextScreen:
         frame:
             text displayText
         
-        
-        
 screen inventory_screen:
     zorder 100
     #a sexy grid
+    $ num = 10
     frame:
-        grid 1 4:
+        grid 1 num:
         
-            spacing 15
+            spacing 5
             xpos 0
             ypos 0
 
@@ -185,5 +203,5 @@ screen inventory_screen:
                    selected_idle item.selected_image
                    action selectItem(item)
 
-            for i in range(4 - len(inventory)):
+            for i in range(num - len(inventory)):
                 add "inventory/empty.png"
