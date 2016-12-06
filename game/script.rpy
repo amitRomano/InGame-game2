@@ -29,11 +29,6 @@ init python:
         def __eq__(self, other):
             return self.name == other.name
 
-    iVibrator = Item("Vibrator","inventory/vibrator.png")
-#    iFirewood = Item("Firewood","wood.png")
-#    iFish = Item("Fish","herring_item.png")
-#    iGlasses = Item("Glasses","vr_glasses.png")
-              
     class testItem(Action):
 
         def __init__(self, item, switch, value, remove = True):
@@ -80,7 +75,10 @@ init python:
         def get_selected(self):
             return self.object.selected
 
-            
+###### ITEM DEFINITIONS ########
+    iVibrator = Item("Vibrator","inventory/vibrator.png")
+    iMatch = Item("Match","inventory/match.png")
+
 init python:
     def inventory_dragged(drags, drop):
 
@@ -115,12 +113,16 @@ label this_happens_immediately_after_start:
 screen experiment_screen: 
     on "hide" action Hide("displayTextScreen")
     add "backgrounds/sexroom_floor.png"
+    
+    
+    
+# Inventory item that's added to the inventory by itself and disappears
     if iVibrator not in inventory:
         imagebutton:
             xanchor 0.5
             yanchor 0.5
-            xpos 516
-            ypos 507
+            xpos 566
+            ypos 322
             idle iVibrator.image_name
             hover iVibrator.hover_image
             action [Hide("displayTextScreen"),addItem(iVibrator)]
@@ -128,6 +130,24 @@ screen experiment_screen:
             unhovered Hide("displayTextScreen")
 
 
+
+# Static item (furniture) that adds info to the inventory
+    imagebutton:
+        xanchor 0.5
+        yanchor 0.5
+        xpos 200
+        ypos 200
+        idle iMatch.image_name
+        if iMatch not in inventory:
+            hover iMatch.hover_image
+            action [Hide("displayTextScreen"),addItem(iMatch)]
+            hovered Show("displayTextScreen", displayText = "Better not burn yourself.") 
+            unhovered Hide("displayTextScreen")
+        else:
+            action [Hide("displayTextScreen")]
+            hovered Show("displayTextScreen", displayText = "Careful, I've been burned before!") 
+            unhovered Hide("displayTextScreen")
+            
 
 
 
