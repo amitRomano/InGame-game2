@@ -9,7 +9,12 @@ image partySceneImage = "backgrounds/party_scene.png"
 image mysteryImage = "backgrounds/mysteryshot.png"
 image ceilingImage = "backgrounds/sexroom_ceiling.png"
 image sexroomImage = "backgrounds/sexroom_floor.png"
+image gameroomImage = "backgrounds/gameroom.png"
 image hallwayImage = "backgrounds/hallway.jpg"
+image ConsoleScene = "backgrounds/ConsoleScene.png"
+image WeedbagScene = "backgrounds/WeedbagScene.png"
+image StereoScene = "backgrounds/StereoScene.png"
+image AlcoholScene = "backgrounds/AlcoholScene.png"
 
 ######### PYTHON CODE #########
 
@@ -80,6 +85,10 @@ init python:
     iController = Item("BrunetteNote","inventory/Controller.png")
     iGuitar = Item("BrunetteNote","inventory/Guitar.png")
     iNotebook = Item("Notebook","inventory/Notebook.png")
+    iConsole = Item("Notebook","inventory/Console.png")
+    iWeedbag = Item("Notebook","inventory/Weedbag.png")
+    iStereo = Item("Notebook","inventory/Stereo.png")
+    iAlcohol = Item("Notebook","inventory/Alcohol.png")
 
 init python:
     def inventory_dragged(drags, drop):
@@ -93,12 +102,20 @@ init python:
 
 label start:
     $ clues_count = 0
-    $ total_clues = 9
     $ matWidth, matHeight = 4, 4
     $ Matrix = [[0 for x in range(matWidth)] for y in range(matHeight)]
-    $ CluesArray = [False for y in range(total_clues)]
+    $ clue0 = False
+    $ clue1 = False
+    $ clue2 = False
+    $ clue3 = False
+    $ clue4 = False
+    $ clue5 = False
+    $ clue6 = False
+    $ clue7 = False
+    $ clue8 = False
     $ inventory = []
     $ hallway_visit = False
+    $ gameroom_visit = False
     $ Ashtray_found = False
     $ Danceshoes_found = False
     $ Controller_found = False
@@ -117,17 +134,17 @@ label textsForScreens:
     
     # All items in other rooms get one text for hovering before pressing, one text for pressing (before flashback), one text for hovering after flashback.
     $ ConsoleHoverPre = "'Member when we played the PS4? Ooh, I 'member!"
-    $ ConsoleAction = "Actually, now I 'member something else..."
+    $ ConsoleAction = "Wait, I suddenly remember something about this PS4..."
     $ ConsoleHoverPost = "Dragon Age Inquisition is awesome!"
-    $ WeedbagHoverPre = ""
-    $ WeedbagAction = ""
-    $ WeedbagHoverPost = ""
-    $ StereoHoverPre = ""
-    $ StereoAction = ""
-    $ StereoHoverPost = ""
-    $ AlcoholHoverPre = ""
-    $ AlcoholAction = ""
-    $ AlcoholHoverPost = ""
+    $ WeedbagHoverPre = "'Member weed? I 'member!"
+    $ WeedbagAction = "Wait, I 'member some more weed..."
+    $ WeedbagHoverPost = "lol weed!"
+    $ StereoHoverPre = "'Member music? I 'member!"
+    $ StereoAction = "Wait, I suddenly 'member more..."
+    $ StereoHoverPost = "Music is fun when you're with someone!"
+    $ AlcoholHoverPre = "'Member alcohol? I 'member!"
+    $ AlcoholAction = "Wait, I 'member dead brain cells now!"
+    $ AlcoholHoverPost = "Empty alcohol bottles all around."
 
 label partySceneLabel:
     scene partySceneImage
@@ -182,6 +199,14 @@ label hallway:
     scene hallwayImage
     call screen hallway
     
+label gameroom:    
+    scene gameroomImage
+    show screen gameroom
+    if not gameroom_visit:
+        "This room looks cool!"
+        $ gameroom_visit = True    
+    call screen gameroom
+    
 label notebookLabel:
     show screen sexroom
     show screen notebook_screen
@@ -190,6 +215,42 @@ label notebookLabel:
     "Tip" "Press on the notebook or use the Esc button\n
         to read the notebook and other useful features."
     call screen sexroom
+    
+label ConsoleLabel:
+    "[ConsoleAction]"
+    scene ConsoleScene
+    with pixellate
+    "Joelene and Angie played Dragon Age: Inquisition"
+    scene gameroomImage
+    with pixellate
+    call screen gameroom
+    
+label WeedbagLabel:
+    "[WeedbagAction]"
+    scene WeedbagScene
+    with pixellate
+    "angie is asking for you to smoke on the porch"
+    scene gameroomImage
+    with pixellate
+    call screen gameroom
+
+label StereoLabel:
+    "[StereoAction]"
+    scene StereoScene
+    with pixellate
+    "angie have some cd's (her name is written on them)"
+    scene gameroomImage
+    with pixellate
+    call screen gameroom
+
+label AlcoholLabel:
+    "[AlcoholAction]"
+    scene AlcoholScene
+    with pixellate
+    "joeling told you she dont drink if she smokes"
+    scene gameroomImage
+    with pixellate
+    call screen gameroom
 
 ######### END OF GAMEPLAY ###########
     
@@ -299,9 +360,9 @@ screen gameroom:
         xpos 200
         ypos 200
         idle iConsole.image_name
-        if not CluesArray[4]:
+        if not clue4:
             hover iConsole.hover_image
-            action [Show("displayTextScreen", displayText = ConsoleAction),SetVariable("CluesArray[4]", True)]
+            action [Hide("displayTextScreen"), SetVariable("clue4", True), Jump("ConsoleLabel")]
             hovered Show("displayTextScreen", displayText = ConsoleHoverPre) 
             unhovered Hide("displayTextScreen")
         else:
@@ -315,9 +376,9 @@ screen gameroom:
         xpos 400
         ypos 200
         idle iWeedbag.image_name
-        if not CluesArray[5]:
+        if not clue5:
             hover iWeedbag.hover_image
-            action [Show("displayTextScreen", displayText = WeedbagAction),SetVariable("CluesArray[5]", True)]
+            action [Hide("displayTextScreen"),SetVariable("clue5", True), Jump("WeedbagLabel")]
             hovered Show("displayTextScreen", displayText = WeedbagHoverPre) 
             unhovered Hide("displayTextScreen")
         else:
@@ -331,9 +392,9 @@ screen gameroom:
         xpos 600
         ypos 200
         idle iStereo.image_name
-        if not CluesArray[2]:
+        if not clue2:
             hover iStereo.hover_image
-            action [Show("displayTextScreen", displayText = StereoAction),SetVariable("CluesArray[2]", True)]
+            action [Hide("displayTextScreen"),SetVariable("clue2", True), Jump("StereoLabel")]
             hovered Show("displayTextScreen", displayText = StereoHoverPre) 
             unhovered Hide("displayTextScreen")
         else:
@@ -347,9 +408,9 @@ screen gameroom:
         xpos 200
         ypos 400
         idle iAlcohol.image_name
-        if not CluesArray[7]:
+        if not clue7:
             hover iAlcohol.hover_image
-            action [Show("displayTextScreen", displayText = AlcoholAction),SetVariable("CluesArray[7]", True)]
+            action [Hide("displayTextScreen"), SetVariable("clue7", True), Jump("AlcoholLabel")]
             hovered Show("displayTextScreen", displayText = AlcoholHoverPre) 
             unhovered Hide("displayTextScreen")
         else:
@@ -357,10 +418,30 @@ screen gameroom:
             hovered Show("displayTextScreen", displayText = AlcoholHoverPost)
             unhovered Hide("displayTextScreen")
     
+    imagebutton: # Exit to hallway
+        xanchor 0.5
+        yanchor 0.5
+        xpos 600
+        ypos 400
+        idle "inventory/empty.png"
+        hover "inventory/yellow.png"
+        action Jump("hallway")
+        hovered Show("displayTextScreen", displayText = "go to hallway") 
+        unhovered Hide("displayTextScreen")
 
 
 screen hallway:
     on "hide" action Hide("displayTextScreen")
+    imagebutton: #Gameroom
+        xpos 200
+        ypos 200
+        xanchor 0.5
+        yanchor 0.5
+        idle "inventory/empty.png"
+        hover "inventory/yellow.png"
+        action Jump("gameroom")
+        hovered Show("displayTextScreen", displayText = "Go to game room") 
+        unhovered Hide("displayTextScreen")
     imagebutton:
         xanchor 0.5
         yanchor 0.5

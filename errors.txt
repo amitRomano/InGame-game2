@@ -2,8 +2,7 @@
 errors listed below, and try again.
 
 
-File "game/script.rpy", line 294: screen expects a non-empty block.
-    screen gameroom:
-                    ^
+File "game/script.rpy", line 361: is not terminated with a newline. (Check strings and parenthesis.)
+                action [Show("displayTextScreen", displayText = ConsoleAction),SetVariable("clue4", True), jump("ConsoleLabel"]
 
 Ren'Py Version: Ren'Py 6.99.11.1749

@@ -1,27 +1,68 @@
 ﻿I'm sorry, but an uncaught exception occurred.
 
 While running game code:
-  File "renpy/common/000statements.rpy", line 458, in execute_show_screen
-    renpy.show_screen(name, *args, **kwargs)
-Exception: Screen mysteryImage is not known.
-
+  File "game/script.rpy", line 352, in execute
+    screen gameroom:
+  File "game/script.rpy", line 352, in execute
+    screen gameroom:
+  File "game/script.rpy", line 353, in execute
+    imagebutton: # Console
+  File "game/script.rpy", line 353, in keywords
+    imagebutton: # Console
+  File "game/script.rpy", line 359, in keywords
+    if not clue4:
+  File "game/script.rpy", line 359, in keywords
+    if not clue4:
+NameError: name 'jump' is not defined
 
 -- Full Traceback ------------------------------------------------------------
 
 Full traceback:
-  File "lib/windows-i686/script.rpyc", line 186, in script
-  File "C:\Users\idowo\Downloads\renpy-6.99.11-sdk\renpy\ast.py", line 1696, in execute
-    self.call("execute")
-  File "C:\Users\idowo\Downloads\renpy-6.99.11-sdk\renpy\ast.py", line 1714, in call
-    return renpy.statements.call(method, parsed, *args, **kwargs)
-  File "C:\Users\idowo\Downloads\renpy-6.99.11-sdk\renpy\statements.py", line 144, in call
-    return method(parsed, *args, **kwargs)
-  File "renpy/common/000statements.rpy", line 458, in execute_show_screen
-    renpy.show_screen(name, *args, **kwargs)
-  File "C:\Users\idowo\Downloads\renpy-6.99.11-sdk\renpy\display\screen.py", line 997, in show_screen
-    raise Exception("Screen %s is not known.\n" % (name[0],))
-Exception: Screen mysteryImage is not known.
-
+  File "lib/windows-i686/script.rpyc", line 206, in script
+  File "C:\Users\idowo\Downloads\renpy-6.99.11-sdk\renpy\ast.py", line 603, in execute
+    renpy.exports.say(who, what, interact=self.interact)
+  File "C:\Users\idowo\Downloads\renpy-6.99.11-sdk\renpy\exports.py", line 1135, in say
+    who(what, interact=interact)
+  File "C:\Users\idowo\Downloads\renpy-6.99.11-sdk\renpy\character.py", line 873, in __call__
+    self.do_display(who, what, cb_args=self.cb_args, **display_args)
+  File "C:\Users\idowo\Downloads\renpy-6.99.11-sdk\renpy\character.py", line 719, in do_display
+    **display_args)
+  File "C:\Users\idowo\Downloads\renpy-6.99.11-sdk\renpy\character.py", line 510, in display_say
+    rv = renpy.ui.interact(mouse='say', type=type, roll_forward=roll_forward)
+  File "C:\Users\idowo\Downloads\renpy-6.99.11-sdk\renpy\ui.py", line 278, in interact
+    rv = renpy.game.interface.interact(roll_forward=roll_forward, **kwargs)
+  File "C:\Users\idowo\Downloads\renpy-6.99.11-sdk\renpy\display\core.py", line 2496, in interact
+    repeat, rv = self.interact_core(preloads=preloads, **kwargs)
+  File "C:\Users\idowo\Downloads\renpy-6.99.11-sdk\renpy\display\core.py", line 2764, in interact_core
+    root_widget.visit_all(lambda i : i.per_interact())
+  File "C:\Users\idowo\Downloads\renpy-6.99.11-sdk\renpy\display\core.py", line 464, in visit_all
+    d.visit_all(callback)
+  File "C:\Users\idowo\Downloads\renpy-6.99.11-sdk\renpy\display\core.py", line 464, in visit_all
+    d.visit_all(callback)
+  File "C:\Users\idowo\Downloads\renpy-6.99.11-sdk\renpy\display\core.py", line 464, in visit_all
+    d.visit_all(callback)
+  File "C:\Users\idowo\Downloads\renpy-6.99.11-sdk\renpy\display\screen.py", line 394, in visit_all
+    callback(self)
+  File "C:\Users\idowo\Downloads\renpy-6.99.11-sdk\renpy\display\core.py", line 2764, in <lambda>
+    root_widget.visit_all(lambda i : i.per_interact())
+  File "C:\Users\idowo\Downloads\renpy-6.99.11-sdk\renpy\display\screen.py", line 404, in per_interact
+    self.update()
+  File "C:\Users\idowo\Downloads\renpy-6.99.11-sdk\renpy\display\screen.py", line 573, in update
+    self.screen.function(**self.scope)
+  File "game/script.rpy", line 352, in execute
+    screen gameroom:
+  File "game/script.rpy", line 352, in execute
+    screen gameroom:
+  File "game/script.rpy", line 353, in execute
+    imagebutton: # Console
+  File "game/script.rpy", line 353, in keywords
+    imagebutton: # Console
+  File "game/script.rpy", line 359, in keywords
+    if not clue4:
+  File "game/script.rpy", line 359, in keywords
+    if not clue4:
+  File "<screen language>", line 361, in <module>
+NameError: name 'jump' is not defined
 
 Windows-8-6.2.9200
 Ren'Py 6.99.11.1749
