@@ -262,7 +262,7 @@ label StereoLabel:
     scene gameroomImage
     with pixellate
     $ Matrix[0][3] = 1
-    $ clue4 = True
+    $ clue2 = True
     $ clues_count += 1
     call screen gameroom
 
@@ -380,14 +380,14 @@ screen sexroom:
         hovered Show("displayTextScreen", displayText = "go to hallway") 
         unhovered Hide("displayTextScreen")
         
-    if Vibrator not in inventory: # Vibrator
+    if iVibrator not in inventory: # Vibrator
         imagebutton:
             xanchor 0.5
             yanchor 0.5
-            xpos 400
-            ypos 400
-            idle iNotebook.image_name
-            hover iNotebook.hover_image
+            xpos 200
+            ypos 550
+            idle iVibrator.image_name
+            hover iVibrator.hover_image
             action [Hide("displayTextScreen"), addItem(iVibrator)]
             hovered Show("displayTextScreen", displayText = VibratorHover)
             unhovered Hide("displayTextScreen")
@@ -549,7 +549,7 @@ screen displayTextScreen:
             text displayText
         
 screen inventory_screen:
-    zorder 2
+    zorder 100
     #a sexy grid
     $ num = 4
     frame:
@@ -570,7 +570,7 @@ screen inventory_screen:
                 add "inventory/empty.png"
                 
 screen notebook_screen:
-    zorder 2
+    zorder 50
     frame:
         grid 1 1:
         
