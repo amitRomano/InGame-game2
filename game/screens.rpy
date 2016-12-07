@@ -222,6 +222,7 @@ screen navigation:
         has vbox
 
         textbutton _("Return") action Return()
+        textbutton _("Notebook") action ShowMenu("notebook")
         textbutton _("Preferences") action ShowMenu("preferences")
         textbutton _("Save Game") action ShowMenu("save")
         textbutton _("Load Game") action ShowMenu("load")
@@ -540,4 +541,127 @@ init -2 python:
     config.default_afm_time = 10
     config.default_afm_enable = False
     
+
+##############################################################################
+# Notebook
     
+screen notebook:
+
+    tag menu
+
+    # Include the navigation.
+    use navigation
+
+    # Put the navigation columns in a three-wide grid.
+    grid 3 1:
+        style_group "prefs"
+        xfill True
+
+        # The left column.
+        vbox:
+            frame:
+                style_group "pref"
+                has vbox
+
+                label _("Display")
+                textbutton _("Window") action Preference("display", "window")
+                textbutton _("Fullscreen") action Preference("display", "fullscreen")
+
+            frame:
+                style_group "pref"
+                has vbox
+
+                label _("Transitions")
+                textbutton _("All") action Preference("transitions", "all")
+                textbutton _("None") action Preference("transitions", "none")
+
+            frame:
+                style_group "pref"
+                has vbox
+
+                label _("Text Speed")
+                bar value Preference("text speed")
+
+            frame:
+                style_group "pref"
+                has vbox
+
+                textbutton _("Joystick...") action Preference("joystick")
+
+
+        vbox:
+            frame:
+                style_group "pref"
+                has vbox
+
+                label _("Skip")
+                textbutton _("Seen Messages") action Preference("skip", "seen")
+                textbutton _("All Messages") action Preference("skip", "all")
+
+            frame:
+                style_group "pref"
+                has vbox
+
+                textbutton _("Begin Skipping") action Skip()
+
+            frame:
+                style_group "pref"
+                has vbox
+
+                label _("After Choices")
+                textbutton _("Stop Skipping") action Preference("after choices", "stop")
+                textbutton _("Keep Skipping") action Preference("after choices", "skip")
+
+            frame:
+                style_group "pref"
+                has vbox
+
+                label _("Auto-Forward Time")
+                bar value Preference("auto-forward time")
+
+        vbox:
+            frame:
+                style_group "pref"
+                has vbox
+
+                label _("Music Volume")
+                bar value Preference("music volume")
+
+            frame:
+                style_group "pref"
+                has vbox
+
+                label _("Sound Volume")
+                bar value Preference("sound volume")
+
+                if config.sample_sound:
+                    textbutton _("Test"):
+                        action Play("sound", config.sample_sound)
+                        style "soundtest_button"
+
+            frame:
+                style_group "pref"
+                has vbox
+
+                label _("Voice Volume")
+                bar value Preference("voice volume")
+
+                if config.sample_voice:
+                    textbutton "Test":
+                        action Play("voice", config.sample_voice)
+                        style "soundtest_button"
+
+init -2 python:
+    style.pref_frame.xfill = True
+    style.pref_frame.xmargin = 5
+    style.pref_frame.top_margin = 5
+
+    style.pref_vbox.xfill = True
+
+    style.pref_button.size_group = "pref"
+    style.pref_button.xalign = 1.0
+
+    style.pref_slider.xmaximum = 192
+    style.pref_slider.xalign = 1.0
+
+    style.soundtest_button.xalign = 1.0

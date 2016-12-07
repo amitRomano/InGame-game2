@@ -1,23 +1,62 @@
 ﻿I'm sorry, but an uncaught exception occurred.
 
 While running game code:
-  File "game/script.rpy", line 129, in <module>
-    with MultipleTransition([False,moveintop,sexroomImage,moveoutbottom,True])
-NameError: name 'sexroomImage' is not defined
+  File "renpy/common/000statements.rpy", line 471, in execute_call_screen
+    store._return = renpy.call_screen(name, *args, **kwargs)
+  File "game/script.rpy", line 224, in execute
+    screen notebook_screen:
+  File "game/script.rpy", line 224, in execute
+    screen notebook_screen:
+  File "game/script.rpy", line 226, in execute
+    frame:
+  File "game/script.rpy", line 227, in execute
+    grid 1 num:
+NameError: name 'num' is not defined
 
 -- Full Traceback ------------------------------------------------------------
 
 Full traceback:
-  File "lib/windows-i686/script.rpyc", line 129, in script
-  File "C:\Users\idowo\Downloads\renpy-6.99.11-sdk\renpy\ast.py", line 1258, in execute
-    trans = renpy.python.py_eval(self.expr)
-  File "C:\Users\idowo\Downloads\renpy-6.99.11-sdk\renpy\python.py", line 1670, in py_eval
-    return py_eval_bytecode(code, globals, locals)
-  File "C:\Users\idowo\Downloads\renpy-6.99.11-sdk\renpy\python.py", line 1665, in py_eval_bytecode
-    return eval(bytecode, globals, locals)
-  File "game/script.rpy", line 129, in <module>
-    with MultipleTransition([False,moveintop,sexroomImage,moveoutbottom,True])
-NameError: name 'sexroomImage' is not defined
+  File "lib/windows-i686/script.rpyc", line 142, in script
+  File "C:\Users\idowo\Downloads\renpy-6.99.11-sdk\renpy\ast.py", line 1696, in execute
+    self.call("execute")
+  File "C:\Users\idowo\Downloads\renpy-6.99.11-sdk\renpy\ast.py", line 1714, in call
+    return renpy.statements.call(method, parsed, *args, **kwargs)
+  File "C:\Users\idowo\Downloads\renpy-6.99.11-sdk\renpy\statements.py", line 144, in call
+    return method(parsed, *args, **kwargs)
+  File "renpy/common/000statements.rpy", line 471, in execute_call_screen
+    store._return = renpy.call_screen(name, *args, **kwargs)
+  File "C:\Users\idowo\Downloads\renpy-6.99.11-sdk\renpy\exports.py", line 2496, in call_screen
+    rv = renpy.ui.interact(mouse="screen", type="screen", roll_forward=roll_forward)
+  File "C:\Users\idowo\Downloads\renpy-6.99.11-sdk\renpy\ui.py", line 278, in interact
+    rv = renpy.game.interface.interact(roll_forward=roll_forward, **kwargs)
+  File "C:\Users\idowo\Downloads\renpy-6.99.11-sdk\renpy\display\core.py", line 2496, in interact
+    repeat, rv = self.interact_core(preloads=preloads, **kwargs)
+  File "C:\Users\idowo\Downloads\renpy-6.99.11-sdk\renpy\display\core.py", line 2764, in interact_core
+    root_widget.visit_all(lambda i : i.per_interact())
+  File "C:\Users\idowo\Downloads\renpy-6.99.11-sdk\renpy\display\core.py", line 464, in visit_all
+    d.visit_all(callback)
+  File "C:\Users\idowo\Downloads\renpy-6.99.11-sdk\renpy\display\core.py", line 464, in visit_all
+    d.visit_all(callback)
+  File "C:\Users\idowo\Downloads\renpy-6.99.11-sdk\renpy\display\core.py", line 464, in visit_all
+    d.visit_all(callback)
+  File "C:\Users\idowo\Downloads\renpy-6.99.11-sdk\renpy\display\screen.py", line 394, in visit_all
+    callback(self)
+  File "C:\Users\idowo\Downloads\renpy-6.99.11-sdk\renpy\display\core.py", line 2764, in <lambda>
+    root_widget.visit_all(lambda i : i.per_interact())
+  File "C:\Users\idowo\Downloads\renpy-6.99.11-sdk\renpy\display\screen.py", line 404, in per_interact
+    self.update()
+  File "C:\Users\idowo\Downloads\renpy-6.99.11-sdk\renpy\display\screen.py", line 573, in update
+    self.screen.function(**self.scope)
+  File "game/script.rpy", line 224, in execute
+    screen notebook_screen:
+  File "game/script.rpy", line 224, in execute
+    screen notebook_screen:
+  File "game/script.rpy", line 226, in execute
+    frame:
+  File "game/script.rpy", line 227, in execute
+    grid 1 num:
+  File "<screen language>", line 227, in <module>
+NameError: name 'num' is not defined
 
 Windows-8-6.2.9200
 Ren'Py 6.99.11.1749

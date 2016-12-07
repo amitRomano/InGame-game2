@@ -88,9 +88,10 @@ init python:
 
 ###### ITEM DEFINITIONS ########
     iVibrator = Item("Vibrator","inventory/vibrator.png")
-    iSmokeNote = Item("SmokeNote","inventory/SmokeNote.png")
+    iAshtray = Item("Ashtray","inventory/Ashtray.png")
     iDanceNote = Item("DanceNote","inventory/DanceNote.png")
     iBrunetteNote = Item("BrunetteNote","inventory/BrunetteNote.png")
+    iNotebook = Item("Notebook","inventory/Notebook.png")
 
 init python:
     def inventory_dragged(drags, drop):
@@ -135,8 +136,10 @@ label wakeUpLabel:
     show sexroomImage:
         yalign 0.5
     with MoveTransition(1)                         # will change positions of all images above it
+    scene sexroomImage
     show screen inventory_screen
-    call screen experiment_screen
+    show screen notebook_screen
+    call screen sexroom
 
 
 ######### END OF GAMEPLAY ###########
@@ -152,18 +155,6 @@ label wakeUpLabel:
 
 screen experiment_screen: 
     on "hide" action Hide("displayTextScreen")
-    add "backgrounds/sexroom_floor.png"
-    
-    screen grid_test:
-     grid 2 3:
-         text "Top-Left"
-         text "Top-Right"
-
-         text "Center-Left"
-         text "Center-Right"
-
-         text "Bottom-Left"
-         text "Bottom-Right"
     
     # Inventory item that's added to the inventory by itself and disappears
     if iVibrator not in inventory:
@@ -177,38 +168,29 @@ screen experiment_screen:
             action [Hide("displayTextScreen"),addItem(iVibrator)]
             hovered Show("displayTextScreen", displayText = "Better not burn yourself.") 
             unhovered Hide("displayTextScreen")
-
-
-
-    # Static item (furniture) that adds info to the inventory
+            
+screen sexroom:
+    on "hide" action Hide("displayTextScreen")
     imagebutton:
         xanchor 0.5
         yanchor 0.5
         xpos 200
         ypos 200
-        idle iVibrator.image_name
-        if iVibrator not in inventory:
-            hover iVibrator.hover_image
-            action [Hide("displayTextScreen"),addItem(iVibrator)]
+        idle iAshtray.image_name
+        if iAshtray not in inventory:
+            hover iAshtray.hover_image
+            action [Hide("displayTextScreen"),addItem(iAshtray)]
             hovered Show("displayTextScreen", displayText = "Better not burn yourself.") 
             unhovered Hide("displayTextScreen")
         else:
-            action [Hide("displayTextScreen"),addItem(iVibrator)]
+            action [Hide("displayTextScreen")]
             hovered Show("displayTextScreen", displayText = "Careful, I've been burned before!") 
             unhovered Hide("displayTextScreen")
-            
-
-
-
-
 
 
 
 
 ###### SPECIAL SCREEN DEFINITIONS - DO NOT TOUCH ######
-
-screen sexroom:
-    on "hide" action Hide("displayTextScreen")
     
 screen displayTextScreen:  
     default displayText = ""
@@ -219,7 +201,7 @@ screen displayTextScreen:
             text displayText
         
 screen inventory_screen:
-    zorder 100
+    zorder 2
     #a sexy grid
     $ num = 4
     frame:
@@ -238,3 +220,17 @@ screen inventory_screen:
 
             for i in range(num - len(inventory)):
                 add "inventory/empty.png"
+                
+screen notebook_screen:
+    zorder 2
+    frame:
+        grid 1 1:
+        
+            spacing 5
+            xpos 700
+            ypos 500
+
+            imagebutton: 
+               idle iNotebook.image_name 
+               hover iNotebook.hover_image
+               action selectItem(iNotebook)
