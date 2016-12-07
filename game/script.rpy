@@ -106,6 +106,7 @@ label start:
     $ Matrix = [[0 for x in range(matWidth)] for y in range(matHeight)]
     $ inventory = []
     $ hallway_visit = False
+    $ test_var = False
 
 label partySceneLabel:
     scene partySceneImage
