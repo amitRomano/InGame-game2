@@ -1,26 +1,27 @@
 ﻿I'm sorry, but an uncaught exception occurred.
 
 While running game code:
-WindowsError: [Error 32] The process cannot access the file because it is being used by another process
+  File "renpy/common/000statements.rpy", line 458, in execute_show_screen
+    renpy.show_screen(name, *args, **kwargs)
+Exception: Screen mysteryImage is not known.
+
 
 -- Full Traceback ------------------------------------------------------------
 
 Full traceback:
-  File "C:\Users\idowo\Downloads\renpy-6.99.11-sdk\renpy\bootstrap.py", line 277, in bootstrap
-    renpy.main.main()
-  File "C:\Users\idowo\Downloads\renpy-6.99.11-sdk\renpy\main.py", line 481, in main
-    renpy.persistent.update(True)
-  File "C:\Users\idowo\Downloads\renpy-6.99.11-sdk\renpy\persistent.py", line 358, in update
-    save()
-  File "C:\Users\idowo\Downloads\renpy-6.99.11-sdk\renpy\persistent.py", line 372, in save
-    renpy.loadsave.location.save_persistent(data)
-  File "C:\Users\idowo\Downloads\renpy-6.99.11-sdk\renpy\savelocation.py", line 464, in save_persistent
-    l.save_persistent(data)
-  File "C:\Users\idowo\Downloads\renpy-6.99.11-sdk\renpy\savelocation.py", line 332, in save_persistent
-    safe_rename(fn_new, fn)
-  File "C:\Users\idowo\Downloads\renpy-6.99.11-sdk\renpy\loadsave.py", line 199, in safe_rename
-    os.rename(old, new)
-WindowsError: [Error 32] The process cannot access the file because it is being used by another process
+  File "lib/windows-i686/script.rpyc", line 186, in script
+  File "C:\Users\idowo\Downloads\renpy-6.99.11-sdk\renpy\ast.py", line 1696, in execute
+    self.call("execute")
+  File "C:\Users\idowo\Downloads\renpy-6.99.11-sdk\renpy\ast.py", line 1714, in call
+    return renpy.statements.call(method, parsed, *args, **kwargs)
+  File "C:\Users\idowo\Downloads\renpy-6.99.11-sdk\renpy\statements.py", line 144, in call
+    return method(parsed, *args, **kwargs)
+  File "renpy/common/000statements.rpy", line 458, in execute_show_screen
+    renpy.show_screen(name, *args, **kwargs)
+  File "C:\Users\idowo\Downloads\renpy-6.99.11-sdk\renpy\display\screen.py", line 997, in show_screen
+    raise Exception("Screen %s is not known.\n" % (name[0],))
+Exception: Screen mysteryImage is not known.
+
 
 Windows-8-6.2.9200
 Ren'Py 6.99.11.1749

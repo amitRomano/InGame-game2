@@ -1,4 +1,4 @@
-Wed Dec 07 13:59:51 2016
+Wed Dec 07 14:37:54 2016
 Windows-8-6.2.9200
 Ren'Py 6.99.11.1749
  
@@ -10,22 +10,22 @@ Loading error handling took 0.02s
 Loading script took 0.23s
 Loading persistent took 0.01s
 Importing _renpysteam: ImportError('No module named _renpysteam',)
-Running init code took 0.11s
-Loading analysis data took 0.09s
+Running init code took 0.10s
+Loading analysis data took 0.10s
 Analyze and compile ATL took 0.00s
 Index archives took 0.00s
 Backing up script files to 'C:\\Users\\idowo\\AppData\\Roaming/RenPy/backups\\InGame-game2':
-Dump and make backups. took 0.08s
+Dump and make backups. took 0.07s
 Cleaning cache took 0.00s
 Making clean stores took 0.00s
 DPI scale factor: 1.000000
-Creating interface object took 0.05s
+Creating interface object took 0.04s
 Cleaning stores took 0.00s
 Init translation took 0.01s
 Build styles took 0.00s
 Load screen analysis took 0.00s
 Analyze screens took 0.01s
-Save screen analysis took 0.08s
+Save screen analysis took 0.07s
 Prepare screens took 0.06s
 Save pyanalysis. took 0.00s
 Save bytecode. took 0.05s
@@ -251,11 +251,11 @@ Texture testing:
 - 512px textures work.
 - 1024px textures work.
 - 2048px textures work.
-Total time until interface ready: 1.47899985313s
+Total time until interface ready: 1.44499993324s
 - Target is 5 frames in 0.333333333333 seconds.
 - Frame drawn at 0.000000 seconds.
-- Frame drawn at 0.022000 seconds.
-- Frame drawn at 0.038000 seconds.
-- Frame drawn at 0.054000 seconds.
-- Frame drawn at 0.071000 seconds.
-- 0.071000 seconds to render 5 frames.
+- Frame drawn at 0.033000 seconds.
+- Frame drawn at 0.048000 seconds.
+- Frame drawn at 0.065000 seconds.
+- Frame drawn at 0.082000 seconds.
+- 0.082000 seconds to render 5 frames.

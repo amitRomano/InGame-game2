@@ -102,6 +102,30 @@ label start:
     $ Controller_found = False
     $ Guitar_found = False
     $ Notebook_found = False
+    
+label textsForScreens:
+    # The sexroom items all get "hoverText" for hovering before pressing them, and their respective texts for both pressing and hovering after pressing them."
+    $ HoverText = "What's this? Better try to touch it!"
+    $ AshtrayText = "Huh, so she's a smoker."
+    $ DanceshoesText = "You know what they say, dancers are...\nUgh I forgot it."
+    $ ControllerText = "A gamer. Just my type!"
+    $ GuitarText = "I wonder what kind of music she likes..."
+    $ NotebookHover = "This pen and notebook may be useful."
+    $ NotebookAction = "I'll take it!\nBetter write down all of the clues I'll find."
+    
+    # All items in other rooms get one text for hovering before pressing, one text for pressing (before flashback), one text for hovering after flashback.
+    $ ConsoleHoverPre = "'Member when we played the PS4? Ooh, I 'member!"
+    $ ConsoleAction = "Actually, now I 'member something else..."
+    $ ConsoleHoverPost = "Dragon Age Inquisition is awesome!"
+    $ WeedbagHoverPre = ""
+    $ WeedbagAction = ""
+    $ WeedbagHoverPost = ""
+    $ StereoHoverPre = ""
+    $ StereoAction = ""
+    $ StereoHoverPost = ""
+    $ AlcoholHoverPre = ""
+    $ AlcoholAction = ""
+    $ AlcoholHoverPost = ""
 
 label partySceneLabel:
     scene partySceneImage
@@ -152,17 +176,15 @@ label hallway:
     if not hallway_visit:
         "???" "are you coming to the table?"
         "you" "be there in a few minutes"
-        $ hallway_visit = True
-    
+        $ hallway_visit = True    
     scene hallwayImage
-    show screen inventory_screen
-    show screen notebook_screen
     call screen hallway
     
 label notebookLabel:
     show screen sexroom
-    "Tip" "You can now look at the clues you've picked up in your notebook!"
     show screen notebook_screen
+    with pixellate
+    "Tip" "You can now look at the clues you've picked up in your notebook!"
     "Tip" "Press on the notebook or use the Esc button\n
         to read the notebook and other useful features."
     call screen sexroom
@@ -177,22 +199,6 @@ label notebookLabel:
 
 
 ######## SCREEN DEFINITIONS #########
-
-screen experiment_screen: 
-    on "hide" action Hide("displayTextScreen")
-    
-    # Inventory item that's added to the inventory by itself and disappears
-    if iVibrator not in inventory:
-        imagebutton:
-            xanchor 0.5
-            yanchor 0.5
-            xpos 566
-            ypos 322
-            idle iVibrator.image_name
-            hover iVibrator.hover_image
-            action [("displayTextScreen"),addItem(iVibrator)]
-            hovered Show("displayTextScreen", displayText = "Better not burn yourself.") 
-            unhovered Hide("displayTextScreen")
             
 screen sexroom:
     on "hide" action Hide("displayTextScreen")
@@ -205,12 +211,12 @@ screen sexroom:
         idle iAshtray.image_name
         if not Ashtray_found:
             hover iAshtray.hover_image
-            action [Show("displayTextScreen", displayText = "Huh, so she's a smoker."),SetVariable("Ashtray_found", True)]
-            hovered Show("displayTextScreen", displayText = "What's this? Better try to touch it!") 
+            action [Show("displayTextScreen", displayText = AshtrayText),SetVariable("Ashtray_found", True)]
+            hovered Show("displayTextScreen", displayText = HoverText) 
             unhovered Hide("displayTextScreen")
         else:
             action [Hide("displayTextScreen")]
-            hovered Show("displayTextScreen", displayText = "Huh, so she's a smoker.") 
+            hovered Show("displayTextScreen", displayText = AshtrayText) 
             unhovered Hide("displayTextScreen")
     
     imagebutton: # Dance shoes
@@ -221,12 +227,12 @@ screen sexroom:
         idle iDanceshoes.image_name
         if not Danceshoes_found:
             hover iDanceshoes.hover_image
-            action [Show("displayTextScreen", displayText = "You know what they say, dancers are...\nUgh I forgot it."),SetVariable("Danceshoes_found", True)]
-            hovered Show("displayTextScreen", displayText = "What's this? Better try to touch it!") 
+            action [Show("displayTextScreen", displayText = DanceshoesText),SetVariable("Danceshoes_found", True)]
+            hovered Show("displayTextScreen", displayText = HoverText) 
             unhovered Hide("displayTextScreen")
         else:
             action [Hide("displayTextScreen")]
-            hovered Show("displayTextScreen", displayText = "You know what they say, dancers are...\nUgh I forgot it.")
+            hovered Show("displayTextScreen", displayText = DanceshoesText)
             unhovered Hide("displayTextScreen")
             
     imagebutton: # Controller
@@ -237,12 +243,12 @@ screen sexroom:
         idle iController.image_name
         if not Controller_found:
             hover iController.hover_image
-            action [Show("displayTextScreen", displayText = "A gamer. Just my type!"),SetVariable("Controller_found", True)]
-            hovered Show("displayTextScreen", displayText = "What's this? Better try to touch it!") 
+            action [Show("displayTextScreen", displayText = ControllerText),SetVariable("Controller_found", True)]
+            hovered Show("displayTextScreen", displayText = HoverText) 
             unhovered Hide("displayTextScreen")
         else:
             action [Hide("displayTextScreen")]
-            hovered Show("displayTextScreen", displayText = "A gamer. Just my type!")
+            hovered Show("displayTextScreen", displayText = ControllerText)
             unhovered Hide("displayTextScreen")
             
     imagebutton: # Guitar
@@ -253,16 +259,14 @@ screen sexroom:
         idle iGuitar.image_name
         if not Guitar_found:
             hover iGuitar.hover_image
-            action [Show("displayTextScreen", displayText = "I wonder what kind of music she likes..."),SetVariable("Guitar_found", True)]
-            hovered Show("displayTextScreen", displayText = "What's this? Better try to touch it!") 
+            action [Show("displayTextScreen", displayText = GuitarText),SetVariable("Guitar_found", True)]
+            hovered Show("displayTextScreen", displayText = HoverText) 
             unhovered Hide("displayTextScreen")
         else:
             action [Hide("displayTextScreen")]
-            hovered Show("displayTextScreen", displayText = "I wonder what kind of music she likes...")
+            hovered Show("displayTextScreen", displayText = GuitarText)
             unhovered Hide("displayTextScreen")
              
-            
-    # Inventory item that's added to the inventory by itself and disappears
     if not Notebook_found:
         imagebutton:
             xanchor 0.5
@@ -271,23 +275,23 @@ screen sexroom:
             ypos 400
             idle iVibrator.image_name
             hover iVibrator.hover_image
-            action [Hide("displayTextScreen"),SetVariable("Notebook_found", True),Jump("notebookLabel")]
-            hovered Show("displayTextScreen", displayText = "Hey, a pen and paper!\nBetter write down all of these clues.")
+            action [Show("displayTextScreen", displayText = NotebookAction),SetVariable("Notebook_found", True),Jump("notebookLabel")]
+            hovered Show("displayTextScreen", displayText = NotebookHover)
             unhovered Hide("displayTextScreen")
-    
     
     imagebutton: # Exit to hallway
         xanchor 0.5
         yanchor 0.5
-        xpos 100
-        ypos 100
+        xpos 600
+        ypos 400
         idle "inventory/empty.png"
         hover "inventory/yellow.png"
         action Jump("hallway")
         hovered Show("displayTextScreen", displayText = "go to hallway") 
         unhovered Hide("displayTextScreen")   
         
-        
+# screen gameroom:
+
 
 screen hallway:
     on "hide" action Hide("displayTextScreen")
