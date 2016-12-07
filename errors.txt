@@ -2,8 +2,8 @@
 errors listed below, and try again.
 
 
-File "game/script.rpy", line 109: expected statement.
-    Matrix[0][0] += 7
-                  ^
+File "game/script.rpy", line 228: u'imagebutton' is not a keyword argument or valid child for the imagebutton statement.
+    imagebutton: 
+               ^
 
 Ren'Py Version: Ren'Py 6.99.11.1749

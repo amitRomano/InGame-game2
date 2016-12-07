@@ -29,12 +29,6 @@ init python:
                                         (0, 0), image_name)
         def __eq__(self, other):
             return self.name == other.name
-    
-    class Notebook(Item):
-        def __init__(self, name,image_name):
-            super(self,name,image_name)
-            
-            
 
     class testItem(Action):
 
@@ -61,7 +55,6 @@ init python:
             store.inventory.append(self.item)
             renpy.restart_interaction()
             
-            
     class selectItem(Action):
 
         def __init__(self, object):
@@ -83,8 +76,9 @@ init python:
 ###### ITEM DEFINITIONS ########
     iVibrator = Item("Vibrator","inventory/vibrator.png")
     iAshtray = Item("Ashtray","inventory/Ashtray.png")
-    iDanceNote = Item("DanceNote","inventory/DanceNote.png")
-    iBrunetteNote = Item("BrunetteNote","inventory/BrunetteNote.png")
+    iDanceshoes = Item("DanceNote","inventory/Danceshoes.png")
+    iController = Item("BrunetteNote","inventory/Controller.png")
+    iGuitar = Item("BrunetteNote","inventory/Guitar.png")
     iNotebook = Item("Notebook","inventory/Notebook.png")
 
 init python:
@@ -103,6 +97,11 @@ label start:
     $ Matrix = [[0 for x in range(matWidth)] for y in range(matHeight)]
     $ inventory = []
     $ hallway_visit = False
+    $ Ashtray_found = False
+    $ Danceshoes_found = False
+    $ Controller_found = False
+    $ Guitar_found = False
+    $ Notebook_found = False
 
 label partySceneLabel:
     scene partySceneImage
@@ -129,7 +128,8 @@ label wakeUpLabel:
     "Wait, I'm in someone's bed...\n
      did we sleep together last night?"
     "but which girl did i sleep with?"
-    "breakfast is gonna be so awkward unless I'll figure it out quickly"
+    "breakfast is gonna be so awkward unless I'll figure it out quickly...\n
+    I better look around and click on random things so that I can recognize her."
     show sexroomImage:
         yalign 1.0 yanchor 0.0        # pic_2 will be placed at right offscreen
     with None
@@ -141,7 +141,6 @@ label wakeUpLabel:
     with MoveTransition(1)                         # will change positions of all images above it
     scene sexroomImage
     show screen inventory_screen
-    show screen notebook_screen
     call screen sexroom
 
 label sexroom:
@@ -159,6 +158,14 @@ label hallway:
     show screen inventory_screen
     show screen notebook_screen
     call screen hallway
+    
+label notebookLabel:
+    show screen sexroom
+    "Tip" "You can now look at the clues you've picked up in your notebook!"
+    show screen notebook_screen
+    "Tip" "Press on the notebook or use the Esc button\n
+        to read the notebook and other useful features."
+    call screen sexroom
 
 ######### END OF GAMEPLAY ###########
     
@@ -183,29 +190,93 @@ screen experiment_screen:
             ypos 322
             idle iVibrator.image_name
             hover iVibrator.hover_image
-            action [Hide("displayTextScreen"),addItem(iVibrator)]
+            action [("displayTextScreen"),addItem(iVibrator)]
             hovered Show("displayTextScreen", displayText = "Better not burn yourself.") 
             unhovered Hide("displayTextScreen")
             
 screen sexroom:
     on "hide" action Hide("displayTextScreen")
-    imagebutton:
+    
+    imagebutton: # Ashtray
         xanchor 0.5
         yanchor 0.5
         xpos 200
         ypos 200
         idle iAshtray.image_name
-        if iAshtray not in inventory:
+        if not Ashtray_found:
             hover iAshtray.hover_image
-            action [Hide("displayTextScreen"),addItem(iAshtray)]
-            hovered Show("displayTextScreen", displayText = "Better not burn yourself.") 
+            action [Show("displayTextScreen", displayText = "Huh, so she's a smoker."),SetVariable("Ashtray_found", True)]
+            hovered Show("displayTextScreen", displayText = "What's this? Better try to touch it!") 
             unhovered Hide("displayTextScreen")
         else:
             action [Hide("displayTextScreen")]
-            hovered Show("displayTextScreen", displayText = "Careful, I've been burned before!") 
+            hovered Show("displayTextScreen", displayText = "Huh, so she's a smoker.") 
             unhovered Hide("displayTextScreen")
- 
-    imagebutton:
+    
+    imagebutton: # Dance shoes
+        xanchor 0.5
+        yanchor 0.5
+        xpos 400
+        ypos 200
+        idle iDanceshoes.image_name
+        if not Danceshoes_found:
+            hover iDanceshoes.hover_image
+            action [Show("displayTextScreen", displayText = "You know what they say, dancers are...\nUgh I forgot it."),SetVariable("Danceshoes_found", True)]
+            hovered Show("displayTextScreen", displayText = "What's this? Better try to touch it!") 
+            unhovered Hide("displayTextScreen")
+        else:
+            action [Hide("displayTextScreen")]
+            hovered Show("displayTextScreen", displayText = "You know what they say, dancers are...\nUgh I forgot it.")
+            unhovered Hide("displayTextScreen")
+            
+    imagebutton: # Controller
+        xanchor 0.5
+        yanchor 0.5
+        xpos 600
+        ypos 200
+        idle iController.image_name
+        if not Controller_found:
+            hover iController.hover_image
+            action [Show("displayTextScreen", displayText = "A gamer. Just my type!"),SetVariable("Controller_found", True)]
+            hovered Show("displayTextScreen", displayText = "What's this? Better try to touch it!") 
+            unhovered Hide("displayTextScreen")
+        else:
+            action [Hide("displayTextScreen")]
+            hovered Show("displayTextScreen", displayText = "A gamer. Just my type!")
+            unhovered Hide("displayTextScreen")
+            
+    imagebutton: # Guitar
+        xanchor 0.5
+        yanchor 0.5
+        xpos 200
+        ypos 400
+        idle iGuitar.image_name
+        if not Guitar_found:
+            hover iGuitar.hover_image
+            action [Show("displayTextScreen", displayText = "I wonder what kind of music she likes..."),SetVariable("Guitar_found", True)]
+            hovered Show("displayTextScreen", displayText = "What's this? Better try to touch it!") 
+            unhovered Hide("displayTextScreen")
+        else:
+            action [Hide("displayTextScreen")]
+            hovered Show("displayTextScreen", displayText = "I wonder what kind of music she likes...")
+            unhovered Hide("displayTextScreen")
+             
+            
+    # Inventory item that's added to the inventory by itself and disappears
+    if not Notebook_found:
+        imagebutton:
+            xanchor 0.5
+            yanchor 0.5
+            xpos 400
+            ypos 400
+            idle iVibrator.image_name
+            hover iVibrator.hover_image
+            action [Hide("displayTextScreen"),SetVariable("Notebook_found", True),Jump("notebookLabel")]
+            hovered Show("displayTextScreen", displayText = "Hey, a pen and paper!\nBetter write down all of these clues.")
+            unhovered Hide("displayTextScreen")
+    
+    
+    imagebutton: # Exit to hallway
         xanchor 0.5
         yanchor 0.5
         xpos 100
@@ -216,7 +287,7 @@ screen sexroom:
         hovered Show("displayTextScreen", displayText = "go to hallway") 
         unhovered Hide("displayTextScreen")   
         
-
+        
 
 screen hallway:
     on "hide" action Hide("displayTextScreen")
@@ -266,7 +337,7 @@ screen inventory_screen:
 
             for index, item in enumerate(inventory):
                 imagebutton: 
-                   idle item.image_name 
+                   idle item.image_name
                    hover item.hover_image
                    selected_idle item.selected_image
                    action selectItem(item)
