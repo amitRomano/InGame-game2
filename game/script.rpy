@@ -227,8 +227,8 @@ label notebookLabel:
     call screen sexroom
     
 label ConsoleLabel:
-    "[ConsoleAction]"
     hide screen gameroom
+    "[ConsoleAction]"
     scene ConsoleScene
     with pixellate
     "Joelene and Angie played Dragon Age: Inquisition"
@@ -241,8 +241,8 @@ label ConsoleLabel:
     call screen gameroom
     
 label WeedbagLabel:
-    "[WeedbagAction]"
     hide screen gameroom
+    "[WeedbagAction]"
     scene WeedbagScene
     with pixellate
     "angie is asking for you to smoke on the porch"
@@ -254,8 +254,8 @@ label WeedbagLabel:
     call screen gameroom
 
 label StereoLabel:
-    "[StereoAction]"
     hide screen gameroom
+    "[StereoAction]"
     scene StereoScene
     with pixellate
     "angie have some cd's (her name is written on them)"
@@ -267,8 +267,8 @@ label StereoLabel:
     call screen gameroom
 
 label AlcoholLabel:
-    "[AlcoholAction]"
     hide screen gameroom
+    "[AlcoholAction]"
     scene AlcoholScene
     with pixellate
     "joeling told you she dont drink if she smokes"
