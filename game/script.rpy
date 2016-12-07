@@ -10,9 +10,6 @@ image mysteryImage = "backgrounds/mysteryshot.png"
 image ceilingImage = "backgrounds/sexroom_ceiling.png"
 image sexroomImage = "backgrounds/sexroom_floor.png"
 
-
-
-
 ######### PYTHON CODE #########
 
 init python:
@@ -33,8 +30,6 @@ init python:
             return self.name == other.name
     
     class Notebook(Item):
-        w, h = 8, 5 
-        Matrix = [[0 for x in range(w)] for y in range(h)]
         def __init__(self, name,image_name):
             super(self,name,image_name)
             
@@ -104,6 +99,9 @@ init python:
 ######### START OF GAMEPLAY #########
 
 label start:
+    $ clues_count = 0
+    $ matWidth, matHeight = 4, 4 
+    $ Matrix = [[0 for x in range(matWidth)] for y in range(matHeight)]
     $ inventory = []
 
 label partySceneLabel:

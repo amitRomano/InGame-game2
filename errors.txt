@@ -2,8 +2,8 @@
 errors listed below, and try again.
 
 
-File "game/script.rpy", line 132: Line is indented, but the preceding with statement statement does not expect a block. Please check this line's indentation.
-    $ renpy.pause(3.0)
-    ^
+File "game/script.rpy", line 109: expected statement.
+    Matrix[0][0] += 7
+                  ^
 
 Ren'Py Version: Ren'Py 6.99.11.1749

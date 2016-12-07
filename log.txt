@@ -1,4 +1,4 @@
-Wed Dec 07 02:03:06 2016
+Wed Dec 07 11:38:02 2016
 Windows-8-6.2.9200
 Ren'Py 6.99.11.1749
  
@@ -25,9 +25,9 @@ Init translation took 0.00s
 Build styles took 0.00s
 Load screen analysis took 0.00s
 Analyze screens took 0.01s
-Save screen analysis took 0.08s
-Prepare screens took 0.06s
-Save pyanalysis. took 0.26s
+Save screen analysis took 0.12s
+Prepare screens took 0.08s
+Save pyanalysis. took 0.00s
 Save bytecode. took 0.05s
 Running _start took 0.00s
 Performance test:
@@ -251,11 +251,11 @@ Texture testing:
 - 512px textures work.
 - 1024px textures work.
 - 2048px textures work.
-Total time until interface ready: 1.58399987221s
+Total time until interface ready: 1.48000001907s
 - Target is 5 frames in 0.333333333333 seconds.
 - Frame drawn at 0.000000 seconds.
-- Frame drawn at 0.011000 seconds.
-- Frame drawn at 0.026000 seconds.
-- Frame drawn at 0.042000 seconds.
-- Frame drawn at 0.059000 seconds.
-- 0.059000 seconds to render 5 frames.
+- Frame drawn at 0.021000 seconds.
+- Frame drawn at 0.038000 seconds.
+- Frame drawn at 0.053000 seconds.
+- Frame drawn at 0.069000 seconds.
+- 0.069000 seconds to render 5 frames.

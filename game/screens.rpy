@@ -564,7 +564,7 @@ screen notebook:
                 has vbox
 
                 label _("Display")
-                textbutton _("Window") action Preference("display", "window")
+                textbutton _("[clues_count]") action Preference("display", "window")
                 textbutton _("Fullscreen") action Preference("display", "fullscreen")
 
             frame:
