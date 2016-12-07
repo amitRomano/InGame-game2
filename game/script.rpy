@@ -93,8 +93,10 @@ init python:
 
 label start:
     $ clues_count = 0
-    $ matWidth, matHeight = 4, 4 
+    $ total_clues = 9
+    $ matWidth, matHeight = 4, 4
     $ Matrix = [[0 for x in range(matWidth)] for y in range(matHeight)]
+    $ CluesArray = [False for y in range(total_clues)]
     $ inventory = []
     $ hallway_visit = False
     $ Ashtray_found = False
@@ -290,7 +292,71 @@ screen sexroom:
         hovered Show("displayTextScreen", displayText = "go to hallway") 
         unhovered Hide("displayTextScreen")   
         
-# screen gameroom:
+screen gameroom:
+    imagebutton: # Console
+        xanchor 0.5
+        yanchor 0.5
+        xpos 200
+        ypos 200
+        idle iConsole.image_name
+        if not CluesArray[4]:
+            hover iConsole.hover_image
+            action [Show("displayTextScreen", displayText = ConsoleAction),SetVariable("CluesArray[4]", True)]
+            hovered Show("displayTextScreen", displayText = ConsoleHoverPre) 
+            unhovered Hide("displayTextScreen")
+        else:
+            action [Hide("displayTextScreen")]
+            hovered Show("displayTextScreen", displayText = ConsoleHoverPost)
+            unhovered Hide("displayTextScreen")
+            
+    imagebutton: # Weedbag
+        xanchor 0.5
+        yanchor 0.5
+        xpos 400
+        ypos 200
+        idle iWeedbag.image_name
+        if not CluesArray[5]:
+            hover iWeedbag.hover_image
+            action [Show("displayTextScreen", displayText = WeedbagAction),SetVariable("CluesArray[5]", True)]
+            hovered Show("displayTextScreen", displayText = WeedbagHoverPre) 
+            unhovered Hide("displayTextScreen")
+        else:
+            action [Hide("displayTextScreen")]
+            hovered Show("displayTextScreen", displayText = WeedbagHoverPost)
+            unhovered Hide("displayTextScreen")
+            
+    imagebutton: # Stereo
+        xanchor 0.5
+        yanchor 0.5
+        xpos 600
+        ypos 200
+        idle iStereo.image_name
+        if not CluesArray[2]:
+            hover iStereo.hover_image
+            action [Show("displayTextScreen", displayText = StereoAction),SetVariable("CluesArray[2]", True)]
+            hovered Show("displayTextScreen", displayText = StereoHoverPre) 
+            unhovered Hide("displayTextScreen")
+        else:
+            action [Hide("displayTextScreen")]
+            hovered Show("displayTextScreen", displayText = StereoHoverPost)
+            unhovered Hide("displayTextScreen")
+            
+    imagebutton: # Alcohol
+        xanchor 0.5
+        yanchor 0.5
+        xpos 200
+        ypos 400
+        idle iAlcohol.image_name
+        if not CluesArray[7]:
+            hover iAlcohol.hover_image
+            action [Show("displayTextScreen", displayText = AlcoholAction),SetVariable("CluesArray[7]", True)]
+            hovered Show("displayTextScreen", displayText = AlcoholHoverPre) 
+            unhovered Hide("displayTextScreen")
+        else:
+            action [Hide("displayTextScreen")]
+            hovered Show("displayTextScreen", displayText = AlcoholHoverPost)
+            unhovered Hide("displayTextScreen")
+    
 
 
 screen hallway:
