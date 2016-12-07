@@ -1,27 +1,23 @@
 ﻿I'm sorry, but an uncaught exception occurred.
 
-While running game code:
-  File "game/script_amity.rpy", line 15, in script
-    call screen hallway
-ScriptError: could not find label 'sexroom'.
+While parsing C:\Users\idowo\Documents\GitHub\InGame-game2/game/script.rpy.
+ScriptError: Name u'hallway' is defined twice, at lib/windows-i686/script.rpyc:153 and lib/windows-i686/script_amit.rpyc:4.
 
 -- Full Traceback ------------------------------------------------------------
 
 Full traceback:
-  File "C:\Users\Alienware\Downloads\renpy-6.99.11-sdk\renpy\bootstrap.py", line 277, in bootstrap
+  File "C:\Users\idowo\Downloads\renpy-6.99.11-sdk\renpy\bootstrap.py", line 277, in bootstrap
     renpy.main.main()
-  File "C:\Users\Alienware\Downloads\renpy-6.99.11-sdk\renpy\main.py", line 478, in main
-    run(restart)
-  File "C:\Users\Alienware\Downloads\renpy-6.99.11-sdk\renpy\main.py", line 144, in run
-    renpy.execution.run_context(True)
-  File "C:\Users\Alienware\Downloads\renpy-6.99.11-sdk\renpy\execution.py", line 734, in run_context
-    context.run()
-  File "game/script_amity.rpy", line 15, in script
-    call screen hallway
-  File "C:\Users\Alienware\Downloads\renpy-6.99.11-sdk\renpy\script.py", line 843, in lookup
-    raise ScriptError("could not find label '%s'." % str(original))
-ScriptError: could not find label 'sexroom'.
+  File "C:\Users\idowo\Downloads\renpy-6.99.11-sdk\renpy\main.py", line 358, in main
+    renpy.game.script.load_script() # sets renpy.game.script.
+  File "C:\Users\idowo\Downloads\renpy-6.99.11-sdk\renpy\script.py", line 259, in load_script
+    self.load_appropriate_file(".rpyc", ".rpy", dir, fn, initcode)
+  File "C:\Users\idowo\Downloads\renpy-6.99.11-sdk\renpy\script.py", line 738, in load_appropriate_file
+    self.finish_load(stmts, initcode, filename=fn + source)
+  File "C:\Users\idowo\Downloads\renpy-6.99.11-sdk\renpy\script.py", line 414, in finish_load
+    bad_node.filename, bad_node.linenumber))
+ScriptError: Name u'hallway' is defined twice, at lib/windows-i686/script.rpyc:153 and lib/windows-i686/script_amit.rpyc:4.
 
 Windows-8-6.2.9200
 Ren'Py 6.99.11.1749
-Point and Click Test 0.0
+ 

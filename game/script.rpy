@@ -9,6 +9,7 @@ image partySceneImage = "backgrounds/party_scene.png"
 image mysteryImage = "backgrounds/mysteryshot.png"
 image ceilingImage = "backgrounds/sexroom_ceiling.png"
 image sexroomImage = "backgrounds/sexroom_floor.png"
+image hallwayImage = "backgrounds/hallway.jpg"
 
 ######### PYTHON CODE #########
 
@@ -148,6 +149,18 @@ label wakeUpLabel:
 label sexroom:
     scene sexroomImage
     call screen sexroom 
+    
+label hallway:    
+    scene hallwayImage
+    if not hallway_visit:
+        "???" "are you coming to the table?"
+        "you" "be there in a few minutes"
+        $ hallway_visit = True
+    
+    scene hallwayImage
+    show screen inventory_screen
+    show screen notebook_screen
+    call screen hallway
 
 ######### END OF GAMEPLAY ###########
     
@@ -206,6 +219,30 @@ screen sexroom:
         unhovered Hide("displayTextScreen")   
         
 
+
+screen hallway:
+    on "hide" action Hide("displayTextScreen")
+    imagebutton:
+        xanchor 0.5
+        yanchor 0.5
+        xpos 400
+        ypos 600
+        idle "inventory/empty.png"
+        hover "inventory/yellow.png"
+        action Jump("sexroom")
+        hovered Show("displayTextScreen", displayText = "Go to the girl's Room") 
+        unhovered Hide("displayTextScreen")
+    
+    imagebutton:
+        xpos 745
+        ypos 235
+        xanchor 0.5
+        yanchor 0.5
+        idle "inventory/empty.png"
+        hover "inventory/yellow.png"
+        action Jump("sexroom")
+        hovered Show("displayTextScreen", displayText = "Go to the roomate's Room.") 
+        unhovered Hide("displayTextScreen")
 
 
 ###### SPECIAL SCREEN DEFINITIONS - DO NOT TOUCH ######
