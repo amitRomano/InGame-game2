@@ -79,15 +79,19 @@ init python:
             return self.object.selected
 
 ###### ITEM DEFINITIONS ########
+    iVibrator = Item("Vibrator","inventory/Vibrator.png")
     iAshtray = Item("Ashtray","inventory/Ashtray.png")
-    iDanceshoes = Item("DanceNote","inventory/Danceshoes.png")
-    iController = Item("BrunetteNote","inventory/Controller.png")
-    iGuitar = Item("BrunetteNote","inventory/Guitar.png")
+    iDanceshoes = Item("Danceshoes","inventory/Danceshoes.png")
+    iController = Item("Controller","inventory/Controller.png")
+    iGuitar = Item("Guitar","inventory/Guitar.png")
     iNotebook = Item("Notebook","inventory/Notebook.png")
-    iConsole = Item("Notebook","inventory/Console.png")
-    iWeedbag = Item("Notebook","inventory/Weedbag.png")
-    iStereo = Item("Notebook","inventory/Stereo.png")
-    iAlcohol = Item("Notebook","inventory/Alcohol.png")
+    iConsole = Item("Console","inventory/Console.png")
+    iWeedbag = Item("Weedbag","inventory/Weedbag.png")
+    iStereo = Item("Stereo","inventory/Stereo.png")
+    iAlcohol = Item("Alcohol","inventory/Alcohol.png")
+    iShoes = Item("Shoes","furniture/Shoes.png")
+    iPrizes = Item("Prizes","furniture/Prizes.png")
+    iBookPile = Item("Books","furniture/BookPile.png")
 
 init python:
     def inventory_dragged(drags, drop):
@@ -130,6 +134,7 @@ label textsForScreens:
     $ GuitarText = "I wonder what kind of music she likes..."
     $ NotebookHover = "This pen and notebook may be useful."
     $ NotebookAction = "I'll take it!\nBetter write down all of the clues I'll find."
+    $ VibratorHover = "Never know when I'm gonna use that ;)"
     
     # All items in other rooms get one text for hovering before pressing, one text for pressing (before flashback), one text for hovering after flashback.
     $ ConsoleHoverPre = "'Member when we played the PS4? Ooh, I 'member!"
@@ -144,6 +149,12 @@ label textsForScreens:
     $ AlcoholHoverPre = "'Member alcohol? I 'member!"
     $ AlcoholAction = "Wait, I 'member dead brain cells now!"
     $ AlcoholHoverPost = "Empty alcohol bottles all around."
+    $ ShoesHover = "A pair of shoes..."
+    $ ShoesAction = "Last night was really wild."
+    $ PrizesHover = "Look at all these prizes!"
+    $ PrizesAction = "Someone's probably really successful!"
+    $ BookPileHover = "So many books..."
+    $ BookPileAction = "The person this room belongs to is a huge nerd!"
 
 label partySceneLabel:
     scene partySceneImage
@@ -207,7 +218,7 @@ label gameroom:
     call screen gameroom
     
 label notebookLabel:
-    show screen sexroom
+    hide screen gameroom
     show screen notebook_screen
     with pixellate
     "Tip" "You can now look at the clues you've picked up in your notebook!"
@@ -367,7 +378,20 @@ screen sexroom:
         hover "inventory/yellow.png"
         action Jump("hallway")
         hovered Show("displayTextScreen", displayText = "go to hallway") 
-        unhovered Hide("displayTextScreen")   
+        unhovered Hide("displayTextScreen")
+        
+    if Vibrator not in inventory: # Vibrator
+        imagebutton:
+            xanchor 0.5
+            yanchor 0.5
+            xpos 400
+            ypos 400
+            idle iNotebook.image_name
+            hover iNotebook.hover_image
+            action [Hide("displayTextScreen"), addItem(iVibrator)]
+            hovered Show("displayTextScreen", displayText = VibratorHover)
+            unhovered Hide("displayTextScreen")
+    
         
 screen gameroom:
     imagebutton: # Console
@@ -443,6 +467,39 @@ screen gameroom:
         hover "inventory/yellow.png"
         action Jump("hallway")
         hovered Show("displayTextScreen", displayText = "go to hallway") 
+        unhovered Hide("displayTextScreen")
+
+    imagebutton: # BookPile
+        xanchor 0.5
+        yanchor 0.5
+        xpos 200
+        ypos 500
+        idle iBookPile.image_name
+        hover iBookPile.hover_image
+        action Show("displayTextScreen", displayText = BookPileAction)
+        hovered Show("displayTextScreen", displayText = BookPileHover) 
+        unhovered Hide("displayTextScreen")
+        
+    imagebutton: # Prizes
+        xanchor 0.5
+        yanchor 0.5
+        xpos 400
+        ypos 500
+        idle iPrizes.image_name
+        hover iPrizes.hover_image
+        action Show("displayTextScreen", displayText = PrizesAction)
+        hovered Show("displayTextScreen", displayText = PrizesHover) 
+        unhovered Hide("displayTextScreen")
+        
+    imagebutton: # Shoes
+        xanchor 0.5
+        yanchor 0.5
+        xpos 600
+        ypos 500
+        idle iShoes.image_name
+        hover iShoes.hover_image
+        action Show("displayTextScreen", displayText = ShoesAction)
+        hovered Show("displayTextScreen", displayText = ShoesHover) 
         unhovered Hide("displayTextScreen")
 
 

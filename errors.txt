@@ -2,8 +2,9 @@
 errors listed below, and try again.
 
 
-File "game/screens.rpy", line 205: Line is indented, but the preceding one-line python statement does not expect a block. Please check this line's indentation.
-    textbutton _("Start Game") action Start()
-    ^
+File "game/script.rpy", line 155: invalid syntax
+    BookPile Hover = "The person this room belongs to is a huge nerd!"
+                  ^
+    
 
 Ren'Py Version: Ren'Py 6.99.11.1749
