@@ -2,9 +2,8 @@
 errors listed below, and try again.
 
 
-File "game/script.rpy", line 155: invalid syntax
-    BookPile Hover = "The person this room belongs to is a huge nerd!"
-                  ^
-    
+File "game/script.rpy", line 424: Line is indented, but the preceding on statement does not expect a block. Please check this line's indentation.
+    imagebutton: 
+    ^
 
 Ren'Py Version: Ren'Py 6.99.11.1749

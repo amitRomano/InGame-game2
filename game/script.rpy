@@ -13,8 +13,10 @@ image gameroomImage = "backgrounds/gameroom.png"
 image hallwayImage = "backgrounds/hallway.jpg"
 image ConsoleScene = "backgrounds/ConsoleScene.png"
 image WeedbagScene = "backgrounds/WeedbagScene.png"
+image bookscene = "backgrounds/bookScene.png"
 image StereoScene = "backgrounds/StereoScene.png"
 image AlcoholScene = "backgrounds/AlcoholScene.png"
+image toiletImage = "backgrounds/Toilet.jpg"
 
 ######### PYTHON CODE #########
 
@@ -92,7 +94,8 @@ init python:
     iShoes = Item("Shoes","furniture/Shoes.png")
     iPrizes = Item("Prizes","furniture/Prizes.png")
     iBookPile = Item("Books","furniture/BookPile.png")
-
+    ibook = Item("Book","inventory/Book.png")
+    
 init python:
     def inventory_dragged(drags, drop):
 
@@ -125,6 +128,7 @@ label start:
     $ Guitar_found = False
     $ Notebook_found = False
     
+    
 label textsForScreens:
     # The sexroom items all get "hoverText" for hovering before pressing them, and their respective texts for both pressing and hovering after pressing them."
     $ HoverText = "What's this? Better try to touch it!"
@@ -155,6 +159,10 @@ label textsForScreens:
     $ PrizesAction = "Someone's probably really successful!"
     $ BookPileHover = "So many books..."
     $ BookPileAction = "The person this room belongs to is a huge nerd!"
+    $ bookHoverPre = "book"
+    $ bookAction = "you remember:"
+    $ bookHoverPost = "the-humus-king-and-the-bathtub-queen, by Ilan Heitner"
+    
 
 label partySceneLabel:
     scene partySceneImage
@@ -207,7 +215,11 @@ label hallway:
         "you" "be there in a few minutes"
         $ hallway_visit = True    
     scene hallwayImage
-    call screen hallway
+    call screen hallway   
+
+label toilet:  
+    scene toiletImage
+    call screen toilet
     
 label gameroom:   
     scene gameroomImage
@@ -242,7 +254,7 @@ label ConsoleLabel:
     
 label WeedbagLabel:
     hide screen gameroom
-    "[WeedbagAction]"
+    "[bookAction]"
     scene WeedbagScene
     with pixellate
     "angie is asking for you to smoke on the porch"
@@ -252,6 +264,19 @@ label WeedbagLabel:
     $ clue5 = True
     $ clues_count += 1
     call screen gameroom
+
+label BookLabel:
+    hide screen toilet
+    "[bookAction]"
+    scene bookScene
+    with pixellate
+    "roxanne is telling you that she rather read books then playing video games"
+    scene toiletImage
+    with pixellate
+    $ Matrix[1][2] = -1
+    $ clue3 = True
+    $ clues_count += 1
+    call screen toilet
 
 label StereoLabel:
     hide screen gameroom
@@ -392,7 +417,29 @@ screen sexroom:
             hovered Show("displayTextScreen", displayText = VibratorHover)
             unhovered Hide("displayTextScreen")
     
-        
+screen toilet:
+    on "hide" action Hide("displayTextScreen")
+   
+    imagebutton: # book
+        xanchor 0.5
+        yanchor 0.5
+        xpos 400
+        ypos 200
+        idle ibook.image_name
+        if not clue3:
+            hover ibook.hover_image
+            action [Hide("displayTextScreen"), Jump("BookLabel")]
+            hovered Show("displayTextScreen", displayText = bookHoverPre) 
+            unhovered Hide("displayTextScreen")
+        else:
+            action [Hide("displayTextScreen")]
+            hovered Show("displayTextScreen", displayText = bookHoverPost)
+            unhovered Hide("displayTextScreen")
+
+            
+
+    
+
 screen gameroom:
     imagebutton: # Console
         xanchor 0.5
@@ -515,7 +562,7 @@ screen hallway:
         action Jump("gameroom")
         hovered Show("displayTextScreen", displayText = "Go to game room") 
         unhovered Hide("displayTextScreen")
-    imagebutton:
+    imagebutton: #sexroom
         xanchor 0.5
         yanchor 0.5
         xpos 400
@@ -526,15 +573,15 @@ screen hallway:
         hovered Show("displayTextScreen", displayText = "Go to the girl's Room") 
         unhovered Hide("displayTextScreen")
     
-    imagebutton:
+    imagebutton:#Toilet
         xpos 745
         ypos 235
         xanchor 0.5
         yanchor 0.5
         idle "inventory/empty.png"
         hover "inventory/yellow.png"
-        action Jump("sexroom")
-        hovered Show("displayTextScreen", displayText = "Go to the roomate's Room.") 
+        action Jump("toilet")
+        hovered Show("displayTextScreen", displayText = "Go to the toilet.") 
         unhovered Hide("displayTextScreen")
 
 
@@ -544,7 +591,7 @@ screen displayTextScreen:
     default displayText = ""
     vbox:
         xalign 0.5
-        yalign 0.5
+        yalign 0.8
         frame:
             text displayText
         
