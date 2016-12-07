@@ -79,7 +79,6 @@ init python:
             return self.object.selected
 
 ###### ITEM DEFINITIONS ########
-    iVibrator = Item("Vibrator","inventory/vibrator.png")
     iAshtray = Item("Ashtray","inventory/Ashtray.png")
     iDanceshoes = Item("DanceNote","inventory/Danceshoes.png")
     iController = Item("BrunetteNote","inventory/Controller.png")
@@ -101,9 +100,6 @@ init python:
 ######### START OF GAMEPLAY #########
 
 label start:
-    $ clues_count = 0
-    $ matWidth, matHeight = 4, 4
-    $ Matrix = [[0 for x in range(matWidth)] for y in range(matHeight)]
     $ clue0 = False
     $ clue1 = False
     $ clue2 = False
@@ -116,6 +112,9 @@ label start:
     $ inventory = []
     $ hallway_visit = False
     $ gameroom_visit = False
+    $ clues_count = 0
+    $ matWidth, matHeight = 4, 4
+    $ Matrix = [[0 for x in range(matWidth)] for y in range(matHeight)]
     $ Ashtray_found = False
     $ Danceshoes_found = False
     $ Controller_found = False
@@ -224,6 +223,10 @@ label ConsoleLabel:
     "Joelene and Angie played Dragon Age: Inquisition"
     scene gameroomImage
     with pixellate
+    $ Matrix[0][2] = 1
+    $ Matrix[3][2] = 1
+    $ clue4 = True
+    $ clues_count += 1
     call screen gameroom
     
 label WeedbagLabel:
@@ -234,6 +237,9 @@ label WeedbagLabel:
     "angie is asking for you to smoke on the porch"
     scene gameroomImage
     with pixellate
+    $ Matrix[0][0] = -1
+    $ clue5 = True
+    $ clues_count += 1
     call screen gameroom
 
 label StereoLabel:
@@ -244,6 +250,9 @@ label StereoLabel:
     "angie have some cd's (her name is written on them)"
     scene gameroomImage
     with pixellate
+    $ Matrix[0][3] = 1
+    $ clue4 = True
+    $ clues_count += 1
     call screen gameroom
 
 label AlcoholLabel:
@@ -254,6 +263,9 @@ label AlcoholLabel:
     "joeling told you she dont drink if she smokes"
     scene gameroomImage
     with pixellate
+    $ Matrix[3][0] = 1
+    $ clue7 = True
+    $ clues_count += 1
     call screen gameroom
 
 ######### END OF GAMEPLAY ###########
@@ -340,8 +352,8 @@ screen sexroom:
             yanchor 0.5
             xpos 400
             ypos 400
-            idle iVibrator.image_name
-            hover iVibrator.hover_image
+            idle iNotebook.image_name
+            hover iNotebook.hover_image
             action [Show("displayTextScreen", displayText = NotebookAction),SetVariable("Notebook_found", True),Jump("notebookLabel")]
             hovered Show("displayTextScreen", displayText = NotebookHover)
             unhovered Hide("displayTextScreen")
@@ -366,7 +378,7 @@ screen gameroom:
         idle iConsole.image_name
         if not clue4:
             hover iConsole.hover_image
-            action [Hide("displayTextScreen"), SetVariable("clue4", True), Jump("ConsoleLabel")]
+            action [Hide("displayTextScreen"), Jump("ConsoleLabel")]
             hovered Show("displayTextScreen", displayText = ConsoleHoverPre) 
             unhovered Hide("displayTextScreen")
         else:
@@ -382,7 +394,7 @@ screen gameroom:
         idle iWeedbag.image_name
         if not clue5:
             hover iWeedbag.hover_image
-            action [Hide("displayTextScreen"),SetVariable("clue5", True), Jump("WeedbagLabel")]
+            action [Hide("displayTextScreen"), Jump("WeedbagLabel")]
             hovered Show("displayTextScreen", displayText = WeedbagHoverPre) 
             unhovered Hide("displayTextScreen")
         else:
@@ -398,7 +410,7 @@ screen gameroom:
         idle iStereo.image_name
         if not clue2:
             hover iStereo.hover_image
-            action [Hide("displayTextScreen"),SetVariable("clue2", True), Jump("StereoLabel")]
+            action [Hide("displayTextScreen"), Jump("StereoLabel")]
             hovered Show("displayTextScreen", displayText = StereoHoverPre) 
             unhovered Hide("displayTextScreen")
         else:
@@ -414,7 +426,7 @@ screen gameroom:
         idle iAlcohol.image_name
         if not clue7:
             hover iAlcohol.hover_image
-            action [Hide("displayTextScreen"), SetVariable("clue7", True), Jump("AlcoholLabel")]
+            action [Hide("displayTextScreen"), Jump("AlcoholLabel")]
             hovered Show("displayTextScreen", displayText = AlcoholHoverPre) 
             unhovered Hide("displayTextScreen")
         else:
@@ -512,4 +524,4 @@ screen notebook_screen:
             imagebutton: 
                idle iNotebook.image_name 
                hover iNotebook.hover_image
-               action selectItem(iNotebook)
+               action ShowMenu("notebook")

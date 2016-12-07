@@ -6,6 +6,7 @@
 #
 # Screen that's used to display adv-mode dialogue.
 # http://www.renpy.org/doc/html/screen_special.html#say
+
 screen say:
 
     # Defaults for side_image and two_window
@@ -173,10 +174,15 @@ screen nvl:
 # http://www.renpy.org/doc/html/screen_special.html#main-menu
 
 screen main_menu:
-
+    
     # This ensures that any other menu screen is replaced.
     tag menu
+    
+    
+    
 
+    
+    
     # The background of the main menu.
     window:
         style "mm_root"
@@ -188,10 +194,9 @@ screen main_menu:
         yalign .98
 
         has vbox
-
         textbutton _("Start Game") action Start()
         textbutton _("Load Game") action ShowMenu("load")
-        textbutton _("Preferences") action ShowMenu("preferences")
+        # textbutton _("Preferences") action ShowMenu("preferences")
         textbutton _("Help") action Help()
         textbutton _("Quit") action Quit(confirm=False)
 
@@ -220,9 +225,10 @@ screen navigation:
         yalign .98
         
         has vbox
-
+        
         textbutton _("Return") action Return()
-        textbutton _("Notebook") action ShowMenu("notebook")
+        if Notebook_found:
+            textbutton _("Notebook") action ShowMenu("notebook")
         textbutton _("Preferences") action ShowMenu("preferences")
         textbutton _("Save Game") action ShowMenu("save")
         textbutton _("Load Game") action ShowMenu("load")
@@ -553,103 +559,124 @@ screen notebook:
     use navigation
 
     # Put the navigation columns in a three-wide grid.
-    grid 3 1:
-        style_group "prefs"
+    grid 2 1:
+        style_group "file_picker"
         xfill True
-
         # The left column.
         vbox:
             frame:
-                style_group "pref"
-                has vbox
+                style_group "gm_nav"
+                label _("Let's think what my clues are:")
+            if Ashtray_found:
+                frame:
+                    style_group "pref"
+                    has vbox
 
-                label _("Display")
-                textbutton _("[clues_count]") action Preference("display", "window")
-                textbutton _("Fullscreen") action Preference("display", "fullscreen")
+                    label _("I'm looking for a smoker...")
+                    if Matrix[0][0] == 1:
+                        textbutton _("It could be Angie") action None
+                    else:
+                        if Matrix[0][0] == -1:
+                            textbutton _("Definitely not Angie") action None
+                    if Matrix[1][0] == 1:
+                        textbutton _("It could be Roxanne") action None
+                    else:
+                        if Matrix[1][0] == -1:
+                            textbutton _("Definitely not Roxanne") action None
+                    if Matrix[2][0] == 1:
+                        textbutton _("It could be Lucy") action None
+                    else:
+                        if Matrix[2][0] == -1:
+                            textbutton _("Definitely not Lucy") action None                        
+                    if Matrix[3][0] == 1:
+                        textbutton _("It could be Joelene") action None
+                    else:
+                        if Matrix[3][0] == -1:
+                            textbutton _("Definitely not Joelene") action None
+            if Danceshoes_found:
+                frame:
+                    style_group "pref"
+                    has vbox
 
-            frame:
-                style_group "pref"
-                has vbox
+                    label _("I'm looking for a dancer...")
+                    if Matrix[0][1] == 1:
+                        textbutton _("It could be Angie") action None
+                    else:
+                        if Matrix[0][1] == -1:
+                            textbutton _("Definitely not Angie") action None
+                            
+                    if Matrix[1][1] == 1:
+                        textbutton _("It could be Roxanne") action None
+                    else:
+                        if Matrix[1][1] == -1:
+                            textbutton _("Definitely not Roxanne") action None
+                    if Matrix[2][1] == 1:
+                        textbutton _("It could be Lucy") action None
+                    else:
+                        if Matrix[2][1] == -1:
+                            textbutton _("Definitely not Lucy") action None
+                    if Matrix[3][1] == 1:
+                        textbutton _("It could be Joelene") action None
+                    else:
+                        if Matrix[3][1] == -1:
+                            textbutton _("Definitely not Joelene") action None
+            if Controller_found:
+                frame:
+                    style_group "pref"
+                    has vbox
 
-                label _("Transitions")
-                textbutton _("All") action Preference("transitions", "all")
-                textbutton _("None") action Preference("transitions", "none")
+                    label _("I'm looking for a gamer...")
+                    if Matrix[0][2] == 1:
+                        textbutton _("It could be Angie") action None
+                    else:
+                        if Matrix[0][2] == -1:
+                            textbutton _("Definitely not Angie") action None
+                    if Matrix[1][2] == 1:
+                        textbutton _("It could be Roxanne") action None
+                    else:
+                        if Matrix[1][2] == -1:
+                            textbutton _("Definitely not Roxanne") action None
 
-            frame:
-                style_group "pref"
-                has vbox
+                    if Matrix[2][2] == 1:
+                        textbutton _("It could be Lucy") action None
+                    else:
+                        if Matrix[2][2] == -1:
+                            textbutton _("Definitely not Lucy") action None
+                    if Matrix[3][2] == 1:
+                        textbutton _("It could be Joelene") action None
+                    else:
+                        if Matrix[3][2] == -1:
+                            textbutton _("Definitely not Joelene") action None
+            if Guitar_found:
+                frame:
+                    style_group "pref"
+                    has vbox
 
-                label _("Text Speed")
-                bar value Preference("text speed")
-
-            frame:
-                style_group "pref"
-                has vbox
-
-                textbutton _("Joystick...") action Preference("joystick")
-
-
+                    label _("I'm lookiing for a Rocker...")
+                    if Matrix[0][3] == 1:
+                        textbutton _("It could be Angie") action None
+                    else:
+                        if Matrix[0][3] == -1:
+                            textbutton _("Definitely not Angie") action None  
+                    if Matrix[1][3] == 1:
+                        textbutton _("It could be Roxanne") action None
+                    else:
+                        if Matrix[1][3] == -1:
+                            textbutton _("Definitely not Roxanne") action None
+                    if Matrix[2][3] == 1:
+                        textbutton _("It could be Lucy") action None
+                    else:
+                        if Matrix[2][3] == -1:
+                            textbutton _("Definitely not Lucy") action None
+                    if Matrix[3][3] == 1:
+                        textbutton _("It could be Joelene") action None
+                    else:
+                        if Matrix[3][3] == -1:
+                            textbutton _("Definitely not Joelene") action None
         vbox:
             frame:
-                style_group "pref"
                 has vbox
 
-                label _("Skip")
-                textbutton _("Seen Messages") action Preference("skip", "seen")
-                textbutton _("All Messages") action Preference("skip", "all")
-
-            frame:
-                style_group "pref"
-                has vbox
-
-                textbutton _("Begin Skipping") action Skip()
-
-            frame:
-                style_group "pref"
-                has vbox
-
-                label _("After Choices")
-                textbutton _("Stop Skipping") action Preference("after choices", "stop")
-                textbutton _("Keep Skipping") action Preference("after choices", "skip")
-
-            frame:
-                style_group "pref"
-                has vbox
-
-                label _("Auto-Forward Time")
-                bar value Preference("auto-forward time")
-
-        vbox:
-            frame:
-                style_group "pref"
-                has vbox
-
-                label _("Music Volume")
-                bar value Preference("music volume")
-
-            frame:
-                style_group "pref"
-                has vbox
-
-                label _("Sound Volume")
-                bar value Preference("sound volume")
-
-                if config.sample_sound:
-                    textbutton _("Test"):
-                        action Play("sound", config.sample_sound)
-                        style "soundtest_button"
-
-            frame:
-                style_group "pref"
-                has vbox
-
-                label _("Voice Volume")
-                bar value Preference("voice volume")
-
-                if config.sample_voice:
-                    textbutton "Test":
-                        action Play("voice", config.sample_voice)
-                        style "soundtest_button"
 
 init -2 python:
     style.pref_frame.xfill = True

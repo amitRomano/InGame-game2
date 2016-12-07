@@ -1,68 +1,66 @@
 ﻿I'm sorry, but an uncaught exception occurred.
 
 While running game code:
-  File "game/script.rpy", line 352, in execute
-    screen gameroom:
-  File "game/script.rpy", line 352, in execute
-    screen gameroom:
-  File "game/script.rpy", line 353, in execute
-    imagebutton: # Console
-  File "game/script.rpy", line 353, in keywords
-    imagebutton: # Console
-  File "game/script.rpy", line 359, in keywords
-    if not clue4:
-  File "game/script.rpy", line 359, in keywords
-    if not clue4:
-NameError: name 'jump' is not defined
+  File "game/screens.rpy", line 354, in execute
+    screen preferences:
+  File "game/screens.rpy", line 354, in execute
+    screen preferences:
+  File "game/screens.rpy", line 359, in execute
+    use navigation
+  File "game/screens.rpy", line 223, in execute
+    screen navigation:
+  File "game/screens.rpy", line 223, in execute
+    screen navigation:
+  File "game/screens.rpy", line 230, in execute
+    frame:
+  File "game/screens.rpy", line 235, in execute
+    has vbox
+  File "game/screens.rpy", line 238, in execute
+    if Notebook_found:
+NameError: name 'Notebook_found' is not defined
 
 -- Full Traceback ------------------------------------------------------------
 
 Full traceback:
-  File "lib/windows-i686/script.rpyc", line 206, in script
-  File "C:\Users\idowo\Downloads\renpy-6.99.11-sdk\renpy\ast.py", line 603, in execute
-    renpy.exports.say(who, what, interact=self.interact)
-  File "C:\Users\idowo\Downloads\renpy-6.99.11-sdk\renpy\exports.py", line 1135, in say
-    who(what, interact=interact)
-  File "C:\Users\idowo\Downloads\renpy-6.99.11-sdk\renpy\character.py", line 873, in __call__
-    self.do_display(who, what, cb_args=self.cb_args, **display_args)
-  File "C:\Users\idowo\Downloads\renpy-6.99.11-sdk\renpy\character.py", line 719, in do_display
-    **display_args)
-  File "C:\Users\idowo\Downloads\renpy-6.99.11-sdk\renpy\character.py", line 510, in display_say
-    rv = renpy.ui.interact(mouse='say', type=type, roll_forward=roll_forward)
+  File "lib/windows-i686/_layout/screen_main_menu.rpymc", line 28, in script
+  File "C:\Users\idowo\Downloads\renpy-6.99.11-sdk\renpy\ast.py", line 805, in execute
+    renpy.python.py_exec_bytecode(self.code.bytecode, self.hide, store=self.store)
+  File "C:\Users\idowo\Downloads\renpy-6.99.11-sdk\renpy\python.py", line 1641, in py_exec_bytecode
+    exec bytecode in globals, locals
+  File "renpy/common/_layout/screen_main_menu.rpym", line 30, in <module>
+    ui.interact()
   File "C:\Users\idowo\Downloads\renpy-6.99.11-sdk\renpy\ui.py", line 278, in interact
     rv = renpy.game.interface.interact(roll_forward=roll_forward, **kwargs)
-  File "C:\Users\idowo\Downloads\renpy-6.99.11-sdk\renpy\display\core.py", line 2496, in interact
-    repeat, rv = self.interact_core(preloads=preloads, **kwargs)
-  File "C:\Users\idowo\Downloads\renpy-6.99.11-sdk\renpy\display\core.py", line 2764, in interact_core
-    root_widget.visit_all(lambda i : i.per_interact())
-  File "C:\Users\idowo\Downloads\renpy-6.99.11-sdk\renpy\display\core.py", line 464, in visit_all
-    d.visit_all(callback)
-  File "C:\Users\idowo\Downloads\renpy-6.99.11-sdk\renpy\display\core.py", line 464, in visit_all
-    d.visit_all(callback)
-  File "C:\Users\idowo\Downloads\renpy-6.99.11-sdk\renpy\display\core.py", line 464, in visit_all
-    d.visit_all(callback)
-  File "C:\Users\idowo\Downloads\renpy-6.99.11-sdk\renpy\display\screen.py", line 394, in visit_all
-    callback(self)
-  File "C:\Users\idowo\Downloads\renpy-6.99.11-sdk\renpy\display\core.py", line 2764, in <lambda>
-    root_widget.visit_all(lambda i : i.per_interact())
-  File "C:\Users\idowo\Downloads\renpy-6.99.11-sdk\renpy\display\screen.py", line 404, in per_interact
+  File "C:\Users\idowo\Downloads\renpy-6.99.11-sdk\renpy\display\core.py", line 2508, in interact
+    scene_lists.replace_transient()
+  File "C:\Users\idowo\Downloads\renpy-6.99.11-sdk\renpy\display\core.py", line 795, in replace_transient
+    self.remove(layer, tag)
+  File "C:\Users\idowo\Downloads\renpy-6.99.11-sdk\renpy\display\core.py", line 1082, in remove
+    self.hide_or_replace(layer, remove_index, "hide")
+  File "C:\Users\idowo\Downloads\renpy-6.99.11-sdk\renpy\display\core.py", line 1006, in hide_or_replace
+    d = oldsle.displayable._hide(now - st, now - at, prefix)
+  File "C:\Users\idowo\Downloads\renpy-6.99.11-sdk\renpy\display\screen.py", line 438, in _hide
     self.update()
   File "C:\Users\idowo\Downloads\renpy-6.99.11-sdk\renpy\display\screen.py", line 573, in update
     self.screen.function(**self.scope)
-  File "game/script.rpy", line 352, in execute
-    screen gameroom:
-  File "game/script.rpy", line 352, in execute
-    screen gameroom:
-  File "game/script.rpy", line 353, in execute
-    imagebutton: # Console
-  File "game/script.rpy", line 353, in keywords
-    imagebutton: # Console
-  File "game/script.rpy", line 359, in keywords
-    if not clue4:
-  File "game/script.rpy", line 359, in keywords
-    if not clue4:
-  File "<screen language>", line 361, in <module>
-NameError: name 'jump' is not defined
+  File "game/screens.rpy", line 354, in execute
+    screen preferences:
+  File "game/screens.rpy", line 354, in execute
+    screen preferences:
+  File "game/screens.rpy", line 359, in execute
+    use navigation
+  File "game/screens.rpy", line 223, in execute
+    screen navigation:
+  File "game/screens.rpy", line 223, in execute
+    screen navigation:
+  File "game/screens.rpy", line 230, in execute
+    frame:
+  File "game/screens.rpy", line 235, in execute
+    has vbox
+  File "game/screens.rpy", line 238, in execute
+    if Notebook_found:
+  File "<screen language>", line 238, in <module>
+NameError: name 'Notebook_found' is not defined
 
 Windows-8-6.2.9200
 Ren'Py 6.99.11.1749
