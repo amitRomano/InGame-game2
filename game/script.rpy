@@ -53,7 +53,8 @@ init python:
             renpy.restart_interaction()
 
 
-            
+#test Amit
+ 
     class addItem(Action):
 
         def __init__(self, item):
