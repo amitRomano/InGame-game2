@@ -199,7 +199,7 @@ label hallway:
     scene hallwayImage
     call screen hallway
     
-label gameroom:    
+label gameroom:   
     scene gameroomImage
     show screen gameroom
     if not gameroom_visit:
@@ -218,6 +218,7 @@ label notebookLabel:
     
 label ConsoleLabel:
     "[ConsoleAction]"
+    hide screen gameroom
     scene ConsoleScene
     with pixellate
     "Joelene and Angie played Dragon Age: Inquisition"
@@ -227,6 +228,7 @@ label ConsoleLabel:
     
 label WeedbagLabel:
     "[WeedbagAction]"
+    hide screen gameroom
     scene WeedbagScene
     with pixellate
     "angie is asking for you to smoke on the porch"
@@ -236,6 +238,7 @@ label WeedbagLabel:
 
 label StereoLabel:
     "[StereoAction]"
+    hide screen gameroom
     scene StereoScene
     with pixellate
     "angie have some cd's (her name is written on them)"
@@ -245,6 +248,7 @@ label StereoLabel:
 
 label AlcoholLabel:
     "[AlcoholAction]"
+    hide screen gameroom
     scene AlcoholScene
     with pixellate
     "joeling told you she dont drink if she smokes"
