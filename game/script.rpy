@@ -51,9 +51,6 @@ init python:
                     store.inventory.remove(self.item)
                     store.active_item = None
             renpy.restart_interaction()
-
-
-#test Amit
  
     class addItem(Action):
 
@@ -106,7 +103,6 @@ label start:
     $ Matrix = [[0 for x in range(matWidth)] for y in range(matHeight)]
     $ inventory = []
     $ hallway_visit = False
-    $ test_var = False
 
 label partySceneLabel:
     scene partySceneImage
