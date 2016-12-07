@@ -103,28 +103,34 @@ label start:
     $ matWidth, matHeight = 4, 4 
     $ Matrix = [[0 for x in range(matWidth)] for y in range(matHeight)]
     $ inventory = []
+    $ hallway_visit = False
 
 label partySceneLabel:
     scene partySceneImage
-    "Angie" "Wow, this party is so much fun!"
-    "Roxanne" "I'm having a great time right now!"
-    "Lucy" "All of this alcohol sure is swell."
-    "Joelene" "I'M SUPER WASTEEEEED"
+    "Angie" "this is so fun!"
+    "Roxanne" "yeah, I'm having a great time!"
+    "Lucy" "I think I'm a bit too drunk"
+    "you" "yeah me too"
+    "Joelene" "we should do that more"
     scene mysteryImage
     with dissolve
-    "???" "Dude, I'm so glad we invited you over...\n"
-    "???" "So...how about we go back to my room now?"
+    "???" "I'm so glad we invited you over...\n"
+    "???" "how about we go to my room?"
+
 
 label wakeUpLabel:
     scene ceilingImage:
         yalign 0.5
     with dissolve
+    "hey sleepyhead\n
+     my roomates made breakfast.. come to to table when you're ready"
+    #change screen- she leaves the room
     "W...Where am I?"
     "What am I doing here?"
     "Wait, I'm in someone's bed...\n
-     Fuck. I can't remember who I slept with last night."
-    "FUCK!!"
-    "Better start searching for clues then..."
+     did we sleep together last night?"
+    "but which girl did i sleep with?"
+    "breakfast is gonna be so awkward unless I'll figure it out quickly"
     show sexroomImage:
         yalign 1.0 yanchor 0.0        # pic_2 will be placed at right offscreen
     with None
@@ -139,6 +145,9 @@ label wakeUpLabel:
     show screen notebook_screen
     call screen sexroom
 
+label sexroom:
+    scene sexroomImage
+    call screen sexroom 
 
 ######### END OF GAMEPLAY ###########
     
@@ -184,7 +193,18 @@ screen sexroom:
             action [Hide("displayTextScreen")]
             hovered Show("displayTextScreen", displayText = "Careful, I've been burned before!") 
             unhovered Hide("displayTextScreen")
-
+ 
+    imagebutton:
+        xanchor 0.5
+        yanchor 0.5
+        xpos 100
+        ypos 100
+        idle "inventory/empty.png"
+        hover "inventory/yellow.png"
+        action Jump("hallway")
+        hovered Show("displayTextScreen", displayText = "go to hallway") 
+        unhovered Hide("displayTextScreen")   
+        
 
 
 
