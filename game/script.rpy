@@ -16,7 +16,9 @@ image WeedbagScene = "backgrounds/WeedbagScene.png"
 image bookscene = "backgrounds/bookScene.png"
 image StereoScene = "backgrounds/StereoScene.png"
 image AlcoholScene = "backgrounds/AlcoholScene.png"
-image toiletImage = "backgrounds/Toilet.jpg"
+image toiletImage = "backgrounds/Toilet.png"
+image laundryImage = "backgrounds/laundry.jpg"
+image drawerImage = "backgrounds/drawer.jpg"
 
 ######### PYTHON CODE #########
 
@@ -104,7 +106,7 @@ init python:
     iPick = Item("Pick","inventory/Pick.png")
     iShelf = Item("Shelf","inventory/Shelf.png")
     iClip = Item("Clip","inventory/Clip.png")
-    
+    iKey = Item("Key","inventory/Key.png")
     
 init python:
     def inventory_dragged(drags, drop):
@@ -157,6 +159,8 @@ label textsForScreens:
     $ PickAction = "I could use this pick"
     $ ClipHover = "laundry clip"
     $ ClipAction = "maybe I could use that for something"
+    $ KeyHover = "key"
+    $ KeyAction = "I bet it opens that drawer by the bed"
     
     # All items in other rooms get one text for hovering before pressing, one text for pressing (before flashback), one text for hovering after flashback.
     $ ConsoleHoverPre = "'Member when we played the PS4? Ooh, I 'member!"
@@ -254,9 +258,18 @@ label hallway:
     scene hallwayImage
     call screen hallway   
 
+label drawer:
+    scene drawerImage
+    call screen drawer
+
+
 label toilet:  
     scene toiletImage
     call screen toilet
+
+label laundry:
+    scene laundryImage
+    call screen laundry
     
 label gameroom:   
     scene gameroomImage
@@ -342,8 +355,6 @@ label WeedbagLabel:
     $ clue5 = True
     $ clues_count += 1
     call screen gameroom
-
-
     
 label SweatshirtLabel:
     "[SweatshirtAction]"
@@ -392,8 +403,8 @@ screen sexroom:
     imagebutton: # Ashtray
         xanchor 0.5
         yanchor 0.5
-        xpos 200
-        ypos 200
+        xpos 511
+        ypos 306
         idle iAshtray.image_name
         if not Ashtray_found:
             hover iAshtray.hover_image
@@ -464,7 +475,18 @@ screen sexroom:
             action [Show("displayTextScreen", displayText = NotebookAction),SetVariable("Notebook_found", True),Jump("notebookLabel")]
             hovered Show("displayTextScreen", displayText = NotebookHover)
             unhovered Hide("displayTextScreen")
-    
+   
+    imagebutton: # open drawer
+        xanchor 0.5
+        yanchor 0.5
+        xpos 521
+        ypos 372
+        idle "inventory/empty.png"
+        hover "inventory/yellow.png"
+        action Jump("drawer")
+        hovered Show("displayTextScreen", displayText = "open drawer") 
+        unhovered Hide("displayTextScreen")
+        
     imagebutton: # Exit to hallway
         xanchor 0.5
         yanchor 0.5
@@ -475,7 +497,33 @@ screen sexroom:
         action Jump("hallway")
         hovered Show("displayTextScreen", displayText = "go to hallway") 
         unhovered Hide("displayTextScreen")
-        
+    
+    imagebutton: # Exit to hallway
+        xanchor 0.5
+        yanchor 0.5
+        xpos 800
+        ypos 400
+        idle "inventory/empty.png"
+        hover "inventory/yellow.png"
+        action Jump("laundry")
+        hovered Show("displayTextScreen", displayText = "look out the window") 
+        unhovered Hide("displayTextScreen")
+    
+    if iKey not in inventory: # Key
+        imagebutton:
+            xanchor 0.5
+            yanchor 0.5
+            xpos 200
+            ypos 550
+            idle iKey.image_name
+            hover iKey.hover_image
+            action [Hide("displayTextScreen"), addItem(iKey)]
+            hovered Show("displayTextScreen", displayText = KeyHover)
+            unhovered Hide("displayTextScreen")
+            
+
+
+screen drawer:
     if iVibrator not in inventory: # Vibrator
         imagebutton:
             xanchor 0.5
@@ -487,7 +535,42 @@ screen sexroom:
             action [Hide("displayTextScreen"), addItem(iVibrator)]
             hovered Show("displayTextScreen", displayText = VibratorHover)
             unhovered Hide("displayTextScreen")
-    
+            
+    imagebutton: #sexroom
+        xanchor 0.5
+        yanchor 0.5
+        xpos 400
+        ypos 600
+        idle "inventory/empty.png"
+        hover "inventory/yellow.png"
+        action Jump("sexroom")
+        hovered Show("displayTextScreen", displayText = "close the drawer") 
+        unhovered Hide("displayTextScreen")
+        
+screen laundry:
+    if iClip not in inventory: # luandry clip
+        imagebutton:
+            xanchor 0.5
+            yanchor 0.5
+            xpos 200
+            ypos 550
+            idle iClip.image_name
+            hover iClip.hover_image
+            action [Hide("displayTextScreen"), addItem(iClip)]
+            hovered Show("displayTextScreen", displayText = ClipHover)
+            unhovered Hide("displayTextScreen")
+            
+    imagebutton: #sexroom
+        xanchor 0.5
+        yanchor 0.5
+        xpos 400
+        ypos 600
+        idle "inventory/empty.png"
+        hover "inventory/yellow.png"
+        action Jump("sexroom")
+        hovered Show("displayTextScreen", displayText = "Go back inside") 
+        unhovered Hide("displayTextScreen")
+
 screen toilet:
     on "hide" action Hide("displayTextScreen")
    
@@ -736,6 +819,7 @@ screen hallway:
         action Jump("gameroom")
         hovered Show("displayTextScreen", displayText = "Go to game room") 
         unhovered Hide("displayTextScreen")
+        
     imagebutton: #sexroom
         xanchor 0.5
         yanchor 0.5
