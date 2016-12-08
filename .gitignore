@@ -1,2 +1,4 @@
 *.save
 log.txt
+*.save
+game/saves/persistent

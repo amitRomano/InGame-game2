@@ -151,12 +151,12 @@ label textsForScreens:
     
     #the items that are stored in the inventory (Hover+Action)
     $ VibratorHover = "Never know when I'm gonna use that ;)"
-    $ discHover = "disc"
-    $ discAction = "it's a cd... I have no idia of what"
-    $ pickHoverPre = "a guitar pick"
-    $ pickAction = "I could use this pick"
-    $ clipHoverPre = "laundry clip"
-    $ clipAction = "maybe I could use that for something"
+    $ DiscHover = "disc"
+    $ DiscAction = "it's a cd... I have no idia of what"
+    $ PickHover = "a guitar pick"
+    $ PickAction = "I could use this pick"
+    $ ClipHover = "laundry clip"
+    $ ClipAction = "maybe I could use that for something"
     
     # All items in other rooms get one text for hovering before pressing, one text for pressing (before flashback), one text for hovering after flashback.
     $ ConsoleHoverPre = "'Member when we played the PS4? Ooh, I 'member!"
@@ -186,15 +186,13 @@ label textsForScreens:
     $ ShampooHoverPre = "shampoo"
     $ ShampooAction = "you remember hearing angie singing Aerosmith from the tub"
     $ ShampooHoverPost = "shampoo"
-    $ SoapHoverPre = "soap"
+    $ SoapHover = "soap"
     $ SoapAction = "smells like memum.. which is an exotic flower that's indigenous to the hills of Costa Rica (and not my mom)"
-    $ SoapHoverPost = "soap"
-    $ TapHoverPre = "tap"
+    $ TapHover = "tap"
     $ TapAction = "I dont have time to brush my teeth.. got to find out what happend last night!"
-    $ TapHoverPost = "tap"
-    $ CarpetPre = "this carpet looks familiar"
+    $ CarpetHoverPre = "this carpet looks familiar"
     $ CarpetAction = "you remember: lucy is dancing with you barefoot on the carpet"
-    $ CarpetPost = "it's just a carpet"
+    $ CarpetHoverPost = "it's just a carpet"
     $ ShelfHoverPre = "shelf"
     $ ShelfAction = "you remember hitting your head against this shelf, it still hurts a bit.. damn shelf!"
     $ ShelfHoverPost = "damn shelf!"
@@ -220,15 +218,16 @@ label wakeUpLabel:
         yalign 0.5
     with dissolve
     "hey sleepyhead\n
-     my roomates made breakfast.. come to to table when you're ready"
+    my roomates made breakfast.. come to to table when you're ready"
     #change screen- she leaves the room
     "W...Where am I?"
     "What am I doing here?"
     "Wait, I'm in someone's bed...\n
-     did we sleep together last night?"
+    did we sleep together last night?"
     "but which girl did i sleep with?"
-    "breakfast is gonna be so awkward unless I'll figure it out quickly...\n
-    I better look around and click on random things so that I can recognize her."
+    "breakfast is gonna be so awkward unless I'll figure it out quickly.."
+    "I better look around and find out!"
+    
     show sexroomImage:
         yalign 1.0 yanchor 0.0        # pic_2 will be placed at right offscreen
     with None
@@ -261,7 +260,6 @@ label toilet:
     
 label gameroom:   
     scene gameroomImage
-    show screen gameroom
     if not gameroom_visit:
         "This room looks cool!"
         $ gameroom_visit = True    
@@ -282,7 +280,7 @@ label CarpetLabel:
     $ Matrix[2][1] = +1
     $ clue0 = True
     $ clues_count += 1
-    call screen toilet
+    call screen hallway
     
 label pick:
     "[PickAction]"
@@ -540,10 +538,54 @@ screen toilet:
         else:
             action [Hide("displayTextScreen")]
             hovered Show("displayTextScreen", displayText = ShampooHoverPost)
-            unhovered Hide("displayTextScreen")         
-
+            unhovered Hide("displayTextScreen")     
+            
+    imagebutton: # soap
+        xanchor 0.5
+        yanchor 0.5
+        xpos 400
+        ypos 400
+        idle iSoap.image_name
+        hover iSoap.hover_image
+        action Show("displayTextScreen", displayText = SoapAction)
+        hovered Show("displayTextScreen", displayText = SoapHover) 
+        unhovered Hide("displayTextScreen")
+        
+    imagebutton: # tap
+        xanchor 0.5
+        yanchor 0.5
+        xpos 200
+        ypos 500
+        idle iTap.image_name
+        hover iTap.hover_image
+        action Show("displayTextScreen", displayText = TapAction)
+        hovered Show("displayTextScreen", displayText = TapHover) 
+        unhovered Hide("displayTextScreen")
     
-
+        
+    if iDisc not in inventory: # disc
+        imagebutton:
+            xanchor 0.5
+            yanchor 0.5
+            xpos 200
+            ypos 600
+            idle iDisc.image_name
+            hover iDisc.hover_image
+            action [Hide("displayTextScreen"), addItem(iDisc)]
+            hovered Show("displayTextScreen", displayText = DiscHover)
+            unhovered Hide("displayTextScreen")
+        
+    imagebutton: # Exit to hallway
+        xanchor 0.5
+        yanchor 0.5
+        xpos 600
+        ypos 400
+        idle "inventory/empty.png"
+        hover "inventory/yellow.png"
+        action Jump("hallway")
+        hovered Show("displayTextScreen", displayText = "go to hallway") 
+        unhovered Hide("displayTextScreen")
+    
 screen gameroom:
     imagebutton: # Console
         xanchor 0.5
@@ -656,6 +698,34 @@ screen gameroom:
 
 screen hallway:
     on "hide" action Hide("displayTextScreen")
+    if iPick not in inventory: # guitar-pick
+        imagebutton:
+            xanchor 0.5
+            yanchor 0.5
+            xpos 200
+            ypos 550
+            idle iPick.image_name
+            hover iPick.hover_image
+            action [Hide("displayTextScreen"), addItem(iPick)]
+            hovered Show("displayTextScreen", displayText = PickHover)
+            unhovered Hide("displayTextScreen")
+        
+    imagebutton: #carpet
+        xanchor 0.5
+        yanchor 0.5
+        xpos 600
+        ypos 400
+        idle iCarpet.image_name
+        if not clue0:
+            hover iCarpet.hover_image
+            action [Hide("displayTextScreen"), Jump("CarpetLabel")]
+            hovered Show("displayTextScreen", displayText = CarpetHoverPre) 
+            unhovered Hide("displayTextScreen")
+        else:
+            action [Hide("displayTextScreen")]
+            hovered Show("displayTextScreen", displayText = CarpetHoverPost)
+            unhovered Hide("displayTextScreen")      
+            
     imagebutton: #Gameroom
         xpos 200
         ypos 200
