@@ -1,34 +1,33 @@
-Thu Dec 08 22:48:44 2016
+Thu Dec 08 23:15:05 2016
 Windows-8-6.2.9200
 Ren'Py 6.99.11.1749
  
 
-Bootstrap to the start of init.init took 0.06s
+Bootstrap to the start of init.init took 0.07s
 Early init took 0.01s
 Loader init took 0.02s
-Loading error handling took 0.01s
-Loading script took 0.21s
+Loading error handling took 0.02s
+Loading script took 0.06s
 Loading persistent took 0.01s
 Importing _renpysteam: ImportError('No module named _renpysteam',)
-Running init code took 0.07s
-Loading analysis data took 0.17s
+Running init code took 0.08s
+Loading analysis data took 0.20s
 Analyze and compile ATL took 0.00s
 Index archives took 0.00s
-Backing up script files to 'C:\\Users\\Alienware\\AppData\\Roaming/RenPy/backups\\InGame-game2':
-Dump and make backups. took 0.05s
+Dump and make backups. took 0.04s
 Cleaning cache took 0.00s
 Making clean stores took 0.00s
 DPI scale factor: 1.250000
-Creating interface object took 0.02s
+Creating interface object took 0.04s
 Cleaning stores took 0.00s
 Init translation took 0.00s
 Build styles took 0.00s
-Load screen analysis took 0.00s
-Analyze screens took 0.01s
-Save screen analysis took 0.06s
-Prepare screens took 0.10s
-Save pyanalysis. took 0.71s
-Save bytecode. took 0.03s
+Load screen analysis took 0.02s
+Analyze screens took 0.00s
+Save screen analysis took 0.00s
+Prepare screens took 0.05s
+Save pyanalysis. took 0.00s
+Save bytecode. took 0.00s
 Running _start took 0.00s
 Performance test:
 Interface start took 0.01s
@@ -379,11 +378,29 @@ Texture testing:
 - 512px textures work.
 - 1024px textures work.
 - 2048px textures work.
-Total time until interface ready: 2.27500009537s
+Total time until interface ready: 1.37599992752s
 - Target is 5 frames in 0.333333333333 seconds.
 - Frame drawn at 0.000000 seconds.
-- Frame drawn at 0.061000 seconds.
-- Frame drawn at 0.063000 seconds.
-- Frame drawn at 0.063000 seconds.
-- Frame drawn at 0.078000 seconds.
-- 0.078000 seconds to render 5 frames.
+- Frame drawn at 0.082000 seconds.
+- Frame drawn at 0.097000 seconds.
+- Frame drawn at 0.103000 seconds.
+- Frame drawn at 0.119000 seconds.
+- 0.119000 seconds to render 5 frames.
+The window was minimized.
+The window was restored.
+
+primary display bounds: (0, 0, 1920, 1080)
+Windowed mode.
+Screen sizes: virtual=(800, 600) physical=(1300, 975) drawable=(1300, 975)
+The window was minimized.
+The window was restored.
+
+primary display bounds: (0, 0, 1920, 1080)
+Windowed mode.
+Screen sizes: virtual=(800, 600) physical=(1300, 975) drawable=(1300, 975)
+The window was minimized.
+The window was restored.
+
+primary display bounds: (0, 0, 1920, 1080)
+Windowed mode.
+Screen sizes: virtual=(800, 600) physical=(1300, 975) drawable=(1300, 975)
