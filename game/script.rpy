@@ -94,7 +94,17 @@ init python:
     iShoes = Item("Shoes","furniture/Shoes.png")
     iPrizes = Item("Prizes","furniture/Prizes.png")
     iBookPile = Item("Books","furniture/BookPile.png")
-    ibook = Item("Book","inventory/Book.png")
+    iBook = Item("Book","inventory/Book.png")
+    iSwearshirt = Item("Sweatshirt","inventory/Sweatshirt.png")
+    iShampoo = Item("Shampoo","inventory/Shampoo.png")
+    iSoap = Item("Soap","inventory/Soap.png")
+    iTap = Item("Tap","inventory/Tap.png")
+    iDisc = Item("Disc","inventory/Disc.png")
+    iCarpet = Item("Carpet","inventory/Carpet.png")
+    iPick = Item("Pick","inventory/Pick.png")
+    iShelf = Item("Shelf","inventory/Shelf.png")
+    iClip = Item("Clip","inventory/Clip.png")
+    
     
 init python:
     def inventory_dragged(drags, drop):
@@ -138,7 +148,15 @@ label textsForScreens:
     $ GuitarText = "I wonder what kind of music she likes..."
     $ NotebookHover = "This pen and notebook may be useful."
     $ NotebookAction = "I'll take it!\nBetter write down all of the clues I'll find."
+    
+    #the items that are stored in the inventory (Hover+Action)
     $ VibratorHover = "Never know when I'm gonna use that ;)"
+    $ discHover = "disc"
+    $ discAction = "it's a cd... I have no idia of what"
+    $ pickHoverPre = "a guitar pick"
+    $ pickAction = "I could use this pick"
+    $ clipHoverPre = "laundry clip"
+    $ clipAction = "maybe I could use that for something"
     
     # All items in other rooms get one text for hovering before pressing, one text for pressing (before flashback), one text for hovering after flashback.
     $ ConsoleHoverPre = "'Member when we played the PS4? Ooh, I 'member!"
@@ -159,11 +177,31 @@ label textsForScreens:
     $ PrizesAction = "Someone's probably really successful!"
     $ BookPileHover = "So many books..."
     $ BookPileAction = "The person this room belongs to is a huge nerd!"
-    $ bookHoverPre = "book"
-    $ bookAction = "you remember:"
-    $ bookHoverPost = "the-humus-king-and-the-bathtub-queen, by Ilan Heitner"
+    $ BookHoverPre = "book"
+    $ BookAction = "you remember:"
+    $ BookHoverPost = "the-humus-king-and-the-bathtub-queen, by Ilan Heitner"
+    $ SweatshirtHoverPre = "an old sweatshirt"
+    $ SweatshirtAction = "you remember lucy putting on her sweatshirt before you went outside to smoke weed together"
+    $ SweatshirtHoverPost = "lucy's sweatshirt"
+    $ ShampooHoverPre = "shampoo"
+    $ ShampooAction = "you remember hearing angie singing Aerosmith from the tub"
+    $ ShampooHoverPost = "shampoo"
+    $ SoapHoverPre = "soap"
+    $ SoapAction = "smells like memum.. which is an exotic flower that's indigenous to the hills of Costa Rica (and not my mom)"
+    $ SoapHoverPost = "soap"
+    $ TapHoverPre = "tap"
+    $ TapAction = "I dont have time to brush my teeth.. got to find out what happend last night!"
+    $ TapHoverPost = "tap"
+    $ CarpetPre = "this carpet looks familiar"
+    $ CarpetAction = "you remember: lucy is dancing with you barefoot on the carpet"
+    $ CarpetPost = "it's just a carpet"
+    $ ShelfHoverPre = "shelf"
+    $ ShelfAction = "you remember hitting your head against this shelf, it still hurts a bit.. damn shelf!"
+    $ ShelfHoverPost = "damn shelf!"
+    
     
 
+    
 label partySceneLabel:
     scene partySceneImage
     "Angie" "this is so fun!"
@@ -238,6 +276,48 @@ label notebookLabel:
         to read the notebook and other useful features."
     call screen sexroom
     
+#clues labels
+label CarpetLabel:
+    "[CarpetAction]"
+    $ Matrix[2][1] = +1
+    $ clue0 = True
+    $ clues_count += 1
+    call screen toilet
+    
+label pick:
+    "[PickAction]"
+    $ Matrix[1][3] = +1
+    $ Matrix[2][3] = -1
+    $ clue1 = True
+    $ clues_count += 1
+    call screen toilet    
+
+label StereoLabel:
+    hide screen gameroom
+    "[StereoAction]"
+    scene StereoScene
+    with pixellate
+    "angie have some cd's (her name is written on them)"
+    scene gameroomImage
+    with pixellate
+    $ Matrix[0][3] = 1
+    $ clue2 = True
+    $ clues_count += 1
+    call screen gameroom
+    
+label BookLabel:
+    hide screen toilet
+    "[BookAction]"
+    scene bookScene
+    with pixellate
+    "roxanne is telling you that she much rather read books then playing video games"
+    scene toiletImage
+    with pixellate
+    $ Matrix[1][2] = -1
+    $ clue3 = True
+    $ clues_count += 1
+    call screen toilet
+
 label ConsoleLabel:
     hide screen gameroom
     "[ConsoleAction]"
@@ -254,7 +334,7 @@ label ConsoleLabel:
     
 label WeedbagLabel:
     hide screen gameroom
-    "[bookAction]"
+    "[WeedbagAction]"
     scene WeedbagScene
     with pixellate
     "angie is asking for you to smoke on the porch"
@@ -265,44 +345,37 @@ label WeedbagLabel:
     $ clues_count += 1
     call screen gameroom
 
-label BookLabel:
-    hide screen toilet
-    "[bookAction]"
-    scene bookScene
-    with pixellate
-    "roxanne is telling you that she rather read books then playing video games"
-    scene toiletImage
-    with pixellate
-    $ Matrix[1][2] = -1
-    $ clue3 = True
+
+    
+label SweatshirtLabel:
+    "[SweatshirtAction]"
+    $ Matrix[2][0] = +1
+    $ clue6 = True
     $ clues_count += 1
     call screen toilet
-
-label StereoLabel:
-    hide screen gameroom
-    "[StereoAction]"
-    scene StereoScene
-    with pixellate
-    "angie have some cd's (her name is written on them)"
-    scene gameroomImage
-    with pixellate
-    $ Matrix[0][3] = 1
-    $ clue2 = True
-    $ clues_count += 1
-    call screen gameroom
-
+    
 label AlcoholLabel:
     hide screen gameroom
     "[AlcoholAction]"
     scene AlcoholScene
     with pixellate
-    "joeling told you she dont drink if she smokes"
+    "joeling told you she never drinks alcohol while she smokes"
     scene gameroomImage
     with pixellate
     $ Matrix[3][0] = 1
     $ clue7 = True
     $ clues_count += 1
     call screen gameroom
+    
+label ShampooLabel:
+    "[ShampooAction]"
+    $ Matrix[0][3] = +1
+    $ clue8 = True
+    $ clues_count += 1
+    call screen toilet
+
+
+
 
 ######### END OF GAMEPLAY ###########
     
@@ -425,18 +498,49 @@ screen toilet:
         yanchor 0.5
         xpos 400
         ypos 200
-        idle ibook.image_name
+        idle iBook.image_name
         if not clue3:
-            hover ibook.hover_image
+            hover iBook.hover_image
             action [Hide("displayTextScreen"), Jump("BookLabel")]
-            hovered Show("displayTextScreen", displayText = bookHoverPre) 
+            hovered Show("displayTextScreen", displayText = BookHoverPre) 
             unhovered Hide("displayTextScreen")
         else:
             action [Hide("displayTextScreen")]
-            hovered Show("displayTextScreen", displayText = bookHoverPost)
+            hovered Show("displayTextScreen", displayText = BookHoverPost)
             unhovered Hide("displayTextScreen")
-
             
+    imagebutton: # sweat-shirt
+        xanchor 0.5
+        yanchor 0.5
+        xpos 200
+        ypos 200
+        idle iSwearshirt.image_name
+        if not clue6:
+            hover iSwearshirt.hover_image
+            action [Hide("displayTextScreen"), Jump("SweatshirtLabel")]
+            hovered Show("displayTextScreen", displayText = SweatshirtHoverPre) 
+            unhovered Hide("displayTextScreen")
+        else:
+            action [Hide("displayTextScreen")]
+            hovered Show("displayTextScreen", displayText = SweatshirtHoverPost)
+            unhovered Hide("displayTextScreen")
+            
+            
+    imagebutton: #shampoo-bottle
+        xanchor 0.5
+        yanchor 0.5
+        xpos 200
+        ypos 400
+        idle iShampoo.image_name
+        if not clue8:
+            hover iShampoo.hover_image
+            action [Hide("displayTextScreen"), Jump("ShampooLabel")]
+            hovered Show("displayTextScreen", displayText = ShampooHoverPre) 
+            unhovered Hide("displayTextScreen")
+        else:
+            action [Hide("displayTextScreen")]
+            hovered Show("displayTextScreen", displayText = ShampooHoverPost)
+            unhovered Hide("displayTextScreen")         
 
     
 
