@@ -19,6 +19,8 @@ image AlcoholScene = "backgrounds/AlcoholScene.png"
 image toiletImage = "backgrounds/Toilet.png"
 image laundryImage = "backgrounds/laundry.jpg"
 image drawerImage = "backgrounds/drawer.jpg"
+image endingImage = "backgrounds/ending.jpg"
+
 
 ######### PYTHON CODE #########
 
@@ -128,6 +130,7 @@ label start:
     $ clue6 = False
     $ clue7 = False
     $ clue8 = False
+    $ clue9 = False
     $ inventory = []
     $ hallway_visit = False
     $ gameroom_visit = False
@@ -139,6 +142,7 @@ label start:
     $ Controller_found = False
     $ Guitar_found = False
     $ Notebook_found = False
+    $ can_finish = False
     
     
 label textsForScreens:
@@ -271,6 +275,33 @@ label laundry:
     scene laundryImage
     call screen laundry
     
+label ending:
+    scene endingImage
+    "Angie" "good morning"
+    "Jolene" "look who finally woke up"
+    "Roxanne" "looks like you hade a pretty rough night.."
+    "all four girls" "(laugting)"
+    "Lucy" "we left a plate for you on the counter.. take it and join us"
+    "you" "thanks"
+    call screen ending
+
+label goodEnding:
+    hide screen ending
+    scene goodEndingImage
+    "you eat the pancakes.. it's quite good"
+    "jolene is leaning over to wisper to you"
+    "jolene" "dont get too full.. i want you for round 2"
+    "THE END"
+    return
+label badEnding:
+    hide screen ending
+    scene badEndingImage
+    "you eat the pancakes.. it's quite good"
+    "suddenly you get shot in the head"
+    "you died"
+    "how awkward..."
+    "THE END"
+    return
 label gameroom:   
     scene gameroomImage
     if not gameroom_visit:
@@ -289,18 +320,24 @@ label notebookLabel:
     
 #clues labels
 label CarpetLabel:
+    hide screen hallway
     "[CarpetAction]"
     $ Matrix[2][1] = +1
     $ clue0 = True
     $ clues_count += 1
+    if clues_count > 6:
+        $ can_finish = True
     call screen hallway
     
 label pick:
+    hide screen toilet
     "[PickAction]"
     $ Matrix[1][3] = +1
     $ Matrix[2][3] = -1
     $ clue1 = True
     $ clues_count += 1
+    if clues_count > 6:
+        $ can_finish = True
     call screen toilet    
 
 label StereoLabel:
@@ -314,6 +351,8 @@ label StereoLabel:
     $ Matrix[0][3] = 1
     $ clue2 = True
     $ clues_count += 1
+    if clues_count > 6:
+        $ can_finish = True
     call screen gameroom
     
 label BookLabel:
@@ -327,6 +366,8 @@ label BookLabel:
     $ Matrix[1][2] = -1
     $ clue3 = True
     $ clues_count += 1
+    if clues_count > 6:
+        $ can_finish = True
     call screen toilet
 
 label ConsoleLabel:
@@ -341,6 +382,8 @@ label ConsoleLabel:
     $ Matrix[3][2] = 1
     $ clue4 = True
     $ clues_count += 1
+    if clues_count > 6:
+        $ can_finish = True
     call screen gameroom
     
 label WeedbagLabel:
@@ -354,13 +397,18 @@ label WeedbagLabel:
     $ Matrix[0][0] = -1
     $ clue5 = True
     $ clues_count += 1
+    if clues_count > 6:
+        $ can_finish = True
     call screen gameroom
     
 label SweatshirtLabel:
+    hide screen toilet
     "[SweatshirtAction]"
     $ Matrix[2][0] = +1
     $ clue6 = True
     $ clues_count += 1
+    if clues_count > 6:
+        $ can_finish = True
     call screen toilet
     
 label AlcoholLabel:
@@ -374,15 +422,25 @@ label AlcoholLabel:
     $ Matrix[3][0] = 1
     $ clue7 = True
     $ clues_count += 1
+    if clues_count > 6:
+        $ can_finish = True
     call screen gameroom
     
 label ShampooLabel:
+    hide screen toilet
     "[ShampooAction]"
     $ Matrix[0][3] = +1
     $ clue8 = True
     $ clues_count += 1
+    if clues_count > 6:
+        $ can_finish = True
     call screen toilet
-
+    
+label ShelfLabel:
+    hide screen hallway
+    "[ShelfAction]"
+    $ clue9 = True
+    call screen hallway
 
 
 
@@ -807,7 +865,22 @@ screen hallway:
         else:
             action [Hide("displayTextScreen")]
             hovered Show("displayTextScreen", displayText = CarpetHoverPost)
-            unhovered Hide("displayTextScreen")      
+            unhovered Hide("displayTextScreen")  
+    imagebutton: #shelf
+        xanchor 0.5
+        yanchor 0.5
+        xpos 200
+        ypos 400
+        idle iShelf.image_name
+        if not clue9:
+            hover iShelf.hover_image
+            action [Hide("displayTextScreen"), Jump("ShelfLabel")]
+            hovered Show("displayTextScreen", displayText = ShelfHoverPre) 
+            unhovered Hide("displayTextScreen")
+        else:
+            action [Hide("displayTextScreen")]
+            hovered Show("displayTextScreen", displayText = ShelfHoverPost)
+            unhovered Hide("displayTextScreen")
             
     imagebutton: #Gameroom
         xpos 200
@@ -838,8 +911,67 @@ screen hallway:
         yanchor 0.5
         idle "inventory/empty.png"
         hover "inventory/yellow.png"
-        action Jump("toilet")
+        action [Hide("displayTextScreen"), Jump("toilet")]
         hovered Show("displayTextScreen", displayText = "Go to the toilet.") 
+        unhovered Hide("displayTextScreen")
+ 
+    imagebutton:#Ending
+        xpos 400
+        ypos 100
+        xanchor 0.5
+        yanchor 0.5
+        idle "inventory/empty.png"
+        hover "inventory/yellow.png"
+        if can_finish:
+            action [Hide("displayTextScreen"), Jump("ending")]
+        else:
+            action Show("displayTextScreen", displayText = "I still dont have any idia which girl is it.. there must be more clues..")
+        hovered Show("displayTextScreen", displayText = "Go to the table")
+        unhovered Hide("displayTextScreen")
+        
+screen ending:
+    imagebutton: #sit by angie
+        xpos 300
+        ypos 200
+        xanchor 0.5
+        yanchor 0.5
+        idle "inventory/empty.png"
+        hover "inventory/yellow.png"
+        action [Hide("displayTextScreen"), Jump("badEnding")]
+        hovered Show("displayTextScreen", displayText = "sit by angie") 
+        unhovered Hide("displayTextScreen")
+        
+    imagebutton: #sit by roxanne
+        xpos 400
+        ypos 200
+        xanchor 0.5
+        yanchor 0.5
+        idle "inventory/empty.png"
+        hover "inventory/yellow.png"
+        action [Hide("displayTextScreen"), Jump("badEnding")]
+        hovered Show("displayTextScreen", displayText = "sit by roxanne") 
+        unhovered Hide("displayTextScreen")
+        
+    imagebutton: #sit by jolene
+        xpos 500
+        ypos 200
+        xanchor 0.5
+        yanchor 0.5
+        idle "inventory/empty.png"
+        hover "inventory/yellow.png"
+        action [Hide("displayTextScreen"), Jump("goodEnding")]
+        hovered Show("displayTextScreen", displayText = "sit by jolene") 
+        unhovered Hide("displayTextScreen")
+        
+    imagebutton: #sit by lucy
+        xpos 600
+        ypos 200
+        xanchor 0.5
+        yanchor 0.5
+        idle "inventory/empty.png"
+        hover "inventory/yellow.png"
+        action [Hide("displayTextScreen"), Jump("badEnding")]
+        hovered Show("displayTextScreen", displayText = "sit by lucy") 
         unhovered Hide("displayTextScreen")
 
 
