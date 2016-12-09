@@ -1,24 +1,34 @@
 ﻿I'm sorry, but an uncaught exception occurred.
 
 While running game code:
-  File "game/script.rpy", line 326, in script
-    $ can_finish = true
-  File "game/script.rpy", line 326, in <module>
-    $ can_finish = true
-NameError: name 'true' is not defined
+  File "game/script.rpy", line 257, in script
+    with MoveTransition(1)                         # will change positions of all images above it
+IgnoreLayers: 
 
 -- Full Traceback ------------------------------------------------------------
 
 Full traceback:
-  File "game/script.rpy", line 326, in script
-    $ can_finish = true
-  File "C:\Users\Alienware\Downloads\renpy-6.99.11-sdk\renpy\ast.py", line 805, in execute
-    renpy.python.py_exec_bytecode(self.code.bytecode, self.hide, store=self.store)
-  File "C:\Users\Alienware\Downloads\renpy-6.99.11-sdk\renpy\python.py", line 1641, in py_exec_bytecode
-    exec bytecode in globals, locals
-  File "game/script.rpy", line 326, in <module>
-    $ can_finish = true
-NameError: name 'true' is not defined
+  File "game/script.rpy", line 257, in script
+    with MoveTransition(1)                         # will change positions of all images above it
+  File "C:\Users\Alienware\Downloads\renpy-6.99.11-sdk\renpy\ast.py", line 1265, in execute
+    renpy.exports.with_statement(trans, paired)
+  File "C:\Users\Alienware\Downloads\renpy-6.99.11-sdk\renpy\exports.py", line 1370, in with_statement
+    return renpy.game.interface.do_with(trans, paired, clear=clear)
+  File "C:\Users\Alienware\Downloads\renpy-6.99.11-sdk\renpy\display\core.py", line 2058, in do_with
+    clear=clear)
+  File "C:\Users\Alienware\Downloads\renpy-6.99.11-sdk\renpy\display\core.py", line 2496, in interact
+    repeat, rv = self.interact_core(preloads=preloads, **kwargs)
+  File "C:\Users\Alienware\Downloads\renpy-6.99.11-sdk\renpy\display\core.py", line 3172, in interact_core
+    rv = root_widget.event(ev, x, y, 0)
+  File "C:\Users\Alienware\Downloads\renpy-6.99.11-sdk\renpy\display\layout.py", line 928, in event
+    rv = i.event(ev, x - xo, y - yo, cst)
+  File "C:\Users\Alienware\Downloads\renpy-6.99.11-sdk\renpy\display\layout.py", line 928, in event
+    rv = i.event(ev, x - xo, y - yo, cst)
+  File "C:\Users\Alienware\Downloads\renpy-6.99.11-sdk\renpy\display\layout.py", line 928, in event
+    rv = i.event(ev, x - xo, y - yo, cst)
+  File "C:\Users\Alienware\Downloads\renpy-6.99.11-sdk\renpy\display\screen.py", line 654, in event
+    raise renpy.display.layout.IgnoreLayers()
+IgnoreLayers: 
 
 Windows-8-6.2.9200
 Ren'Py 6.99.11.1749

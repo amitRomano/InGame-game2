@@ -1,4 +1,4 @@
-Fri Dec 09 17:18:26 2016
+Fri Dec 09 17:58:31 2016
 Windows-8-6.2.9200
 Ren'Py 6.99.11.1749
  
@@ -7,11 +7,11 @@ Bootstrap to the start of init.init took 0.06s
 Early init took 0.01s
 Loader init took 0.02s
 Loading error handling took 0.01s
-Loading script took 0.23s
+Loading script took 0.26s
 Loading persistent took 0.01s
 Importing _renpysteam: ImportError('No module named _renpysteam',)
-Running init code took 0.06s
-Loading analysis data took 0.26s
+Running init code took 0.08s
+Loading analysis data took 0.25s
 Analyze and compile ATL took 0.00s
 Index archives took 0.00s
 Backing up script files to 'C:\\Users\\Alienware\\AppData\\Roaming/RenPy/backups\\InGame-game2':
@@ -25,9 +25,9 @@ Init translation took 0.00s
 Build styles took 0.00s
 Load screen analysis took 0.00s
 Analyze screens took 0.01s
-Save screen analysis took 0.06s
-Prepare screens took 0.05s
-Save pyanalysis. took 0.00s
+Save screen analysis took 0.07s
+Prepare screens took 0.08s
+Save pyanalysis. took 1.05s
 Save bytecode. took 0.03s
 Running _start took 0.00s
 Performance test:
@@ -35,7 +35,7 @@ Interface start took 0.01s
 
 primary display bounds: (0, 0, 1920, 1080)
 Windowed mode.
-Screen sizes: virtual=(800, 600) physical=(1304, 978) drawable=(1304, 978)
+Screen sizes: virtual=(800, 600) physical=(1303, 977) drawable=(1303, 977)
 Vendor: 'NVIDIA Corporation'
 Renderer: 'GeForce GTX 770M/PCIe/SSE2'
 Version: '4.5.0 NVIDIA 369.09'
@@ -379,11 +379,28 @@ Texture testing:
 - 512px textures work.
 - 1024px textures work.
 - 2048px textures work.
-Total time until interface ready: 1.57500004768s
+Total time until interface ready: 2.62199997902s
 - Target is 5 frames in 0.333333333333 seconds.
 - Frame drawn at 0.000000 seconds.
-- Frame drawn at 0.053000 seconds.
-- Frame drawn at 0.054000 seconds.
-- Frame drawn at 0.060000 seconds.
-- Frame drawn at 0.077000 seconds.
-- 0.077000 seconds to render 5 frames.
+- Frame drawn at 0.049000 seconds.
+- Frame drawn at 0.050000 seconds.
+- Frame drawn at 0.061000 seconds.
+- Frame drawn at 0.078000 seconds.
+- 0.078000 seconds to render 5 frames.
+Traceback (most recent call last):
+  File "C:\Users\Alienware\Downloads\renpy-6.99.11-sdk\renpy\execution.py", line 408, in run
+    node.execute()
+  File "C:\Users\Alienware\Downloads\renpy-6.99.11-sdk\renpy\ast.py", line 1265, in execute
+    renpy.exports.with_statement(trans, paired)
+  File "C:\Users\Alienware\Downloads\renpy-6.99.11-sdk\renpy\exports.py", line 1370, in with_statement
+    return renpy.game.interface.do_with(trans, paired, clear=clear)
+  File "C:\Users\Alienware\Downloads\renpy-6.99.11-sdk\renpy\display\core.py", line 2058, in do_with
+    clear=clear)
+  File "C:\Users\Alienware\Downloads\renpy-6.99.11-sdk\renpy\display\core.py", line 2496, in interact
+    repeat, rv = self.interact_core(preloads=preloads, **kwargs)
+  File "C:\Users\Alienware\Downloads\renpy-6.99.11-sdk\renpy\display\core.py", line 3172, in interact_core
+    rv = root_widget.event(ev, x, y, 0)
+  File "C:\Users\Alienware\Downloads\renpy-6.99.11-sdk\renpy\display\layout.py", line 928, in event
+    rv = i.event(ev, x - xo, y - yo, cst)
+  File "C:\Users\Alienware\Downloads\renpy-6.99.11-sdk\renpy\display\layout.py", line 928, in event
+    rv = i.even
