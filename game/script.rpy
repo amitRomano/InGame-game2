@@ -82,7 +82,7 @@ init python:
         def get_selected(self):
             return self.object.selected
 
-###### ITEM DEFINITIONS ########
+    ###### ITEM DEFINITIONS ########
     iVibrator = Item("Vibrator","inventory/Vibrator.png")
     iAshtray = Item("Ashtray","inventory/Ashtray.png")
     iDanceshoes = Item("Danceshoes","inventory/Danceshoes.png")
@@ -115,7 +115,15 @@ init python:
             return
 
         return True
-    
+
+init python:
+    def hide_screens():
+        renpy.hide_screen("hallway")
+        renpy.hide_screen("sexroom")
+        renpy.hide_screen("gameroom")
+        renpy.hide_screen("toilet")
+        renpy.hide_screen("drawer")
+
 ######### START OF GAMEPLAY #########
 
 label start:
@@ -128,6 +136,7 @@ label start:
     $ clue6 = False
     $ clue7 = False
     $ clue8 = False
+    $ clickFlag = True
     $ inventory = []
     $ hallway_visit = False
     $ gameroom_visit = False
@@ -200,6 +209,7 @@ label textsForScreens:
     $ ShelfHoverPre = "shelf"
     $ ShelfAction = "you remember hitting your head against this shelf, it still hurts a bit.. damn shelf!"
     $ ShelfHoverPost = "damn shelf!"
+    $ MemberBerries = "I suddenly remember something..."
     
     
 
@@ -246,10 +256,13 @@ label wakeUpLabel:
     call screen sexroom
 
 label sexroom:
+    $ hide_screens()
     scene sexroomImage
     call screen sexroom 
     
-label hallway:    
+label hallway:
+    $ hide_screens()
+    show screen hallway
     scene hallwayImage
     if not hallway_visit:
         "???" "are you coming to the table?"
@@ -259,52 +272,70 @@ label hallway:
     call screen hallway   
 
 label drawer:
+    $ hide_screens()
     scene drawerImage
     call screen drawer
 
 
-label toilet:  
+label toilet:
+    $ hide_screens()
     scene toiletImage
     call screen toilet
 
-label laundry:
+label laundry:    
+    $ hide_screens()
     scene laundryImage
     call screen laundry
     
-label gameroom:   
+label gameroomLabel: 
+    $ hide_screens()
     scene gameroomImage
+    show screen gameroom
     if not gameroom_visit:
         "This room looks cool!"
         $ gameroom_visit = True    
     call screen gameroom
     
+#events labels
 label notebookLabel:
-    hide screen gameroom
-    show screen notebook_screen
+    show screen sexroom
+    $ clickFlag = False
+    "Let's pick this up!"
     with pixellate
+    show screen notebook_screen
     "Tip" "You can now look at the clues you've picked up in your notebook!"
     "Tip" "Press on the notebook or use the Esc button\n
         to read the notebook and other useful features."
+    $ clickFlag = True
     call screen sexroom
     
-#clues labels
 label CarpetLabel:
+    show screen hallway
+    $ clickFlag = False
+    "[MemberBerries]"
     "[CarpetAction]"
     $ Matrix[2][1] = +1
     $ clue0 = True
     $ clues_count += 1
+    $ clickFlag = True
     call screen hallway
     
 label pick:
+    show screen hallway
+    $ clickFlag = False
+    "[MemberBerries]"
     "[PickAction]"
     $ Matrix[1][3] = +1
     $ Matrix[2][3] = -1
     $ clue1 = True
     $ clues_count += 1
+    $ clickFlag = True
     call screen toilet    
 
 label StereoLabel:
-    hide screen gameroom
+    show screen gameroom
+    $ clickFlag = False
+    "[MemberBerries]"
     "[StereoAction]"
     scene StereoScene
     with pixellate
@@ -314,10 +345,13 @@ label StereoLabel:
     $ Matrix[0][3] = 1
     $ clue2 = True
     $ clues_count += 1
+    $ clickFlag = True
     call screen gameroom
     
 label BookLabel:
-    hide screen toilet
+    show screen toilet
+    $ clickFlag = False
+    "[MemberBerries]"
     "[BookAction]"
     scene bookScene
     with pixellate
@@ -327,10 +361,13 @@ label BookLabel:
     $ Matrix[1][2] = -1
     $ clue3 = True
     $ clues_count += 1
+    $ clickFlag = True
     call screen toilet
 
 label ConsoleLabel:
-    hide screen gameroom
+    show screen gameroom
+    $ clickFlag = False
+    "[MemberBerries]"
     "[ConsoleAction]"
     scene ConsoleScene
     with pixellate
@@ -341,10 +378,13 @@ label ConsoleLabel:
     $ Matrix[3][2] = 1
     $ clue4 = True
     $ clues_count += 1
+    $ clickFlag = True
     call screen gameroom
     
 label WeedbagLabel:
-    hide screen gameroom
+    show screen gameroom
+    $ clickFlag = False
+    "[MemberBerries]"
     "[WeedbagAction]"
     scene WeedbagScene
     with pixellate
@@ -354,17 +394,24 @@ label WeedbagLabel:
     $ Matrix[0][0] = -1
     $ clue5 = True
     $ clues_count += 1
+    $ clickFlag = True
     call screen gameroom
     
 label SweatshirtLabel:
+    show screen toilet
+    $ clickFlag = False
+    "[MemberBerries]"
     "[SweatshirtAction]"
     $ Matrix[2][0] = +1
     $ clue6 = True
     $ clues_count += 1
+    $ clickFlag = True
     call screen toilet
     
 label AlcoholLabel:
-    hide screen gameroom
+    show screen gameroom
+    $ clickFlag = False
+    "[MemberBerries]"
     "[AlcoholAction]"
     scene AlcoholScene
     with pixellate
@@ -374,13 +421,18 @@ label AlcoholLabel:
     $ Matrix[3][0] = 1
     $ clue7 = True
     $ clues_count += 1
+    $ clickFlag = True
     call screen gameroom
     
 label ShampooLabel:
+    show screen toilet
+    $ clickFlag = False
+    "[MemberBerries]"
     "[ShampooAction]"
     $ Matrix[0][3] = +1
     $ clue8 = True
     $ clues_count += 1
+    $ clickFlag = True
     call screen toilet
 
 
@@ -406,15 +458,16 @@ screen sexroom:
         xpos 511
         ypos 306
         idle iAshtray.image_name
-        if not Ashtray_found:
+        if clickFlag:
             hover iAshtray.hover_image
-            action [Show("displayTextScreen", displayText = AshtrayText),SetVariable("Ashtray_found", True)]
-            hovered Show("displayTextScreen", displayText = HoverText) 
-            unhovered Hide("displayTextScreen")
-        else:
-            action [Hide("displayTextScreen")]
-            hovered Show("displayTextScreen", displayText = AshtrayText) 
-            unhovered Hide("displayTextScreen")
+            if not Ashtray_found:
+                action [Show("displayTextScreen", displayText = AshtrayText),SetVariable("Ashtray_found", True)]
+                hovered Show("displayTextScreen", displayText = HoverText) 
+                unhovered Hide("displayTextScreen")
+            else:
+                action [Hide("displayTextScreen")]
+                hovered Show("displayTextScreen", displayText = AshtrayText) 
+                unhovered Hide("displayTextScreen")
     
     imagebutton: # Dance shoes
         xanchor 0.5
@@ -422,15 +475,16 @@ screen sexroom:
         xpos 400
         ypos 200
         idle iDanceshoes.image_name
-        if not Danceshoes_found:
+        if clickFlag:
             hover iDanceshoes.hover_image
-            action [Show("displayTextScreen", displayText = DanceshoesText),SetVariable("Danceshoes_found", True)]
-            hovered Show("displayTextScreen", displayText = HoverText) 
-            unhovered Hide("displayTextScreen")
-        else:
-            action [Hide("displayTextScreen")]
-            hovered Show("displayTextScreen", displayText = DanceshoesText)
-            unhovered Hide("displayTextScreen")
+            if not Danceshoes_found:
+                action [Show("displayTextScreen", displayText = DanceshoesText),SetVariable("Danceshoes_found", True)]
+                hovered Show("displayTextScreen", displayText = HoverText) 
+                unhovered Hide("displayTextScreen")
+            else:
+                action [Hide("displayTextScreen")]
+                hovered Show("displayTextScreen", displayText = DanceshoesText)
+                unhovered Hide("displayTextScreen")
             
     imagebutton: # Controller
         xanchor 0.5
@@ -438,15 +492,16 @@ screen sexroom:
         xpos 600
         ypos 200
         idle iController.image_name
-        if not Controller_found:
+        if clickFlag:
             hover iController.hover_image
-            action [Show("displayTextScreen", displayText = ControllerText),SetVariable("Controller_found", True)]
-            hovered Show("displayTextScreen", displayText = HoverText) 
-            unhovered Hide("displayTextScreen")
-        else:
-            action [Hide("displayTextScreen")]
-            hovered Show("displayTextScreen", displayText = ControllerText)
-            unhovered Hide("displayTextScreen")
+            if not Controller_found:
+                action [Show("displayTextScreen", displayText = ControllerText),SetVariable("Controller_found", True)]
+                hovered Show("displayTextScreen", displayText = HoverText) 
+                unhovered Hide("displayTextScreen")
+            else:
+                action [Hide("displayTextScreen")]
+                hovered Show("displayTextScreen", displayText = ControllerText)
+                unhovered Hide("displayTextScreen")
             
     imagebutton: # Guitar
         xanchor 0.5
@@ -454,15 +509,16 @@ screen sexroom:
         xpos 200
         ypos 400
         idle iGuitar.image_name
-        if not Guitar_found:
+        if clickFlag:
             hover iGuitar.hover_image
-            action [Show("displayTextScreen", displayText = GuitarText),SetVariable("Guitar_found", True)]
-            hovered Show("displayTextScreen", displayText = HoverText) 
-            unhovered Hide("displayTextScreen")
-        else:
-            action [Hide("displayTextScreen")]
-            hovered Show("displayTextScreen", displayText = GuitarText)
-            unhovered Hide("displayTextScreen")
+            if not Guitar_found:
+                action [Show("displayTextScreen", displayText = GuitarText),SetVariable("Guitar_found", True)]
+                hovered Show("displayTextScreen", displayText = HoverText) 
+                unhovered Hide("displayTextScreen")
+            else:
+                action [Hide("displayTextScreen")]
+                hovered Show("displayTextScreen", displayText = GuitarText)
+                unhovered Hide("displayTextScreen")
              
     if not Notebook_found:
         imagebutton:
@@ -471,10 +527,11 @@ screen sexroom:
             xpos 400
             ypos 400
             idle iNotebook.image_name
-            hover iNotebook.hover_image
-            action [Show("displayTextScreen", displayText = NotebookAction),SetVariable("Notebook_found", True),Jump("notebookLabel")]
-            hovered Show("displayTextScreen", displayText = NotebookHover)
-            unhovered Hide("displayTextScreen")
+            if clickFlag:
+                hover iNotebook.hover_image
+                action [Show("displayTextScreen", displayText = NotebookAction),SetVariable("Notebook_found", True),Jump("notebookLabel")]
+                hovered Show("displayTextScreen", displayText = NotebookHover)
+                unhovered Hide("displayTextScreen")
    
     imagebutton: # open drawer
         xanchor 0.5
@@ -482,10 +539,11 @@ screen sexroom:
         xpos 521
         ypos 372
         idle "inventory/empty.png"
-        hover "inventory/yellow.png"
-        action Jump("drawer")
-        hovered Show("displayTextScreen", displayText = "open drawer") 
-        unhovered Hide("displayTextScreen")
+        if clickFlag:
+            hover "inventory/yellow.png"
+            action Jump("drawer")
+            hovered Show("displayTextScreen", displayText = "open drawer") 
+            unhovered Hide("displayTextScreen")
         
     imagebutton: # Exit to hallway
         xanchor 0.5
@@ -493,10 +551,11 @@ screen sexroom:
         xpos 600
         ypos 400
         idle "inventory/empty.png"
-        hover "inventory/yellow.png"
-        action Jump("hallway")
-        hovered Show("displayTextScreen", displayText = "go to hallway") 
-        unhovered Hide("displayTextScreen")
+        if clickFlag:
+            hover "inventory/yellow.png"
+            action Jump("hallway")
+            hovered Show("displayTextScreen", displayText = "go to hallway") 
+            unhovered Hide("displayTextScreen")
     
     imagebutton: # Exit to hallway
         xanchor 0.5
@@ -504,10 +563,11 @@ screen sexroom:
         xpos 800
         ypos 400
         idle "inventory/empty.png"
-        hover "inventory/yellow.png"
-        action Jump("laundry")
-        hovered Show("displayTextScreen", displayText = "look out the window") 
-        unhovered Hide("displayTextScreen")
+        if clickFlag:
+            hover "inventory/yellow.png"
+            action Jump("laundry")
+            hovered Show("displayTextScreen", displayText = "look out the window") 
+            unhovered Hide("displayTextScreen")
     
     if iKey not in inventory: # Key
         imagebutton:
@@ -516,10 +576,11 @@ screen sexroom:
             xpos 200
             ypos 550
             idle iKey.image_name
-            hover iKey.hover_image
-            action [Hide("displayTextScreen"), addItem(iKey)]
-            hovered Show("displayTextScreen", displayText = KeyHover)
-            unhovered Hide("displayTextScreen")
+            if clickFlag:
+                hover iKey.hover_image
+                action [Hide("displayTextScreen"), addItem(iKey)]
+                hovered Show("displayTextScreen", displayText = KeyHover)
+                unhovered Hide("displayTextScreen")
             
 
 
@@ -531,10 +592,11 @@ screen drawer:
             xpos 200
             ypos 550
             idle iVibrator.image_name
-            hover iVibrator.hover_image
-            action [Hide("displayTextScreen"), addItem(iVibrator)]
-            hovered Show("displayTextScreen", displayText = VibratorHover)
-            unhovered Hide("displayTextScreen")
+            if clickFlag:
+                hover iVibrator.hover_image
+                action [Hide("displayTextScreen"), addItem(iVibrator)]
+                hovered Show("displayTextScreen", displayText = VibratorHover)
+                unhovered Hide("displayTextScreen")
             
     imagebutton: #sexroom
         xanchor 0.5
@@ -542,10 +604,11 @@ screen drawer:
         xpos 400
         ypos 600
         idle "inventory/empty.png"
-        hover "inventory/yellow.png"
-        action Jump("sexroom")
-        hovered Show("displayTextScreen", displayText = "close the drawer") 
-        unhovered Hide("displayTextScreen")
+        if clickFlag:
+            hover "inventory/yellow.png"
+            action Jump("sexroom")
+            hovered Show("displayTextScreen", displayText = "close the drawer") 
+            unhovered Hide("displayTextScreen")
         
 screen laundry:
     if iClip not in inventory: # luandry clip
@@ -555,10 +618,11 @@ screen laundry:
             xpos 200
             ypos 550
             idle iClip.image_name
-            hover iClip.hover_image
-            action [Hide("displayTextScreen"), addItem(iClip)]
-            hovered Show("displayTextScreen", displayText = ClipHover)
-            unhovered Hide("displayTextScreen")
+            if clickFlag:
+                hover iClip.hover_image
+                action [Hide("displayTextScreen"), addItem(iClip)]
+                hovered Show("displayTextScreen", displayText = ClipHover)
+                unhovered Hide("displayTextScreen")
             
     imagebutton: #sexroom
         xanchor 0.5
@@ -566,10 +630,11 @@ screen laundry:
         xpos 400
         ypos 600
         idle "inventory/empty.png"
-        hover "inventory/yellow.png"
-        action Jump("sexroom")
-        hovered Show("displayTextScreen", displayText = "Go back inside") 
-        unhovered Hide("displayTextScreen")
+        if clickFlag:
+            hover "inventory/yellow.png"
+            action Jump("sexroom")
+            hovered Show("displayTextScreen", displayText = "Go back inside") 
+            unhovered Hide("displayTextScreen")
 
 screen toilet:
     on "hide" action Hide("displayTextScreen")
@@ -580,15 +645,16 @@ screen toilet:
         xpos 400
         ypos 200
         idle iBook.image_name
-        if not clue3:
+        if clickFlag:
             hover iBook.hover_image
-            action [Hide("displayTextScreen"), Jump("BookLabel")]
-            hovered Show("displayTextScreen", displayText = BookHoverPre) 
-            unhovered Hide("displayTextScreen")
-        else:
-            action [Hide("displayTextScreen")]
-            hovered Show("displayTextScreen", displayText = BookHoverPost)
-            unhovered Hide("displayTextScreen")
+            if not clue3:
+                action [Hide("displayTextScreen"), Jump("BookLabel")]
+                hovered Show("displayTextScreen", displayText = BookHoverPre) 
+                unhovered Hide("displayTextScreen")
+            else:
+                action [Hide("displayTextScreen")]
+                hovered Show("displayTextScreen", displayText = BookHoverPost)
+                unhovered Hide("displayTextScreen")
             
     imagebutton: # sweat-shirt
         xanchor 0.5
@@ -596,15 +662,16 @@ screen toilet:
         xpos 200
         ypos 200
         idle iSwearshirt.image_name
-        if not clue6:
+        if clickFlag:
             hover iSwearshirt.hover_image
-            action [Hide("displayTextScreen"), Jump("SweatshirtLabel")]
-            hovered Show("displayTextScreen", displayText = SweatshirtHoverPre) 
-            unhovered Hide("displayTextScreen")
-        else:
-            action [Hide("displayTextScreen")]
-            hovered Show("displayTextScreen", displayText = SweatshirtHoverPost)
-            unhovered Hide("displayTextScreen")
+            if not clue6:
+                action [Hide("displayTextScreen"), Jump("SweatshirtLabel")]
+                hovered Show("displayTextScreen", displayText = SweatshirtHoverPre) 
+                unhovered Hide("displayTextScreen")
+            else:
+                action [Hide("displayTextScreen")]
+                hovered Show("displayTextScreen", displayText = SweatshirtHoverPost)
+                unhovered Hide("displayTextScreen")
             
             
     imagebutton: #shampoo-bottle
@@ -613,15 +680,16 @@ screen toilet:
         xpos 200
         ypos 400
         idle iShampoo.image_name
-        if not clue8:
+        if clickFlag:
             hover iShampoo.hover_image
-            action [Hide("displayTextScreen"), Jump("ShampooLabel")]
-            hovered Show("displayTextScreen", displayText = ShampooHoverPre) 
-            unhovered Hide("displayTextScreen")
-        else:
-            action [Hide("displayTextScreen")]
-            hovered Show("displayTextScreen", displayText = ShampooHoverPost)
-            unhovered Hide("displayTextScreen")     
+            if not clue8:
+                action [Hide("displayTextScreen"), Jump("ShampooLabel")]
+                hovered Show("displayTextScreen", displayText = ShampooHoverPre) 
+                unhovered Hide("displayTextScreen")
+            else:
+                action [Hide("displayTextScreen")]
+                hovered Show("displayTextScreen", displayText = ShampooHoverPost)
+                unhovered Hide("displayTextScreen")     
             
     imagebutton: # soap
         xanchor 0.5
@@ -630,9 +698,10 @@ screen toilet:
         ypos 400
         idle iSoap.image_name
         hover iSoap.hover_image
-        action Show("displayTextScreen", displayText = SoapAction)
-        hovered Show("displayTextScreen", displayText = SoapHover) 
-        unhovered Hide("displayTextScreen")
+        if clickFlag:
+            action Show("displayTextScreen", displayText = SoapAction)
+            hovered Show("displayTextScreen", displayText = SoapHover) 
+            unhovered Hide("displayTextScreen")
         
     imagebutton: # tap
         xanchor 0.5
@@ -641,9 +710,10 @@ screen toilet:
         ypos 500
         idle iTap.image_name
         hover iTap.hover_image
-        action Show("displayTextScreen", displayText = TapAction)
-        hovered Show("displayTextScreen", displayText = TapHover) 
-        unhovered Hide("displayTextScreen")
+        if clickFlag:
+            action Show("displayTextScreen", displayText = TapAction)
+            hovered Show("displayTextScreen", displayText = TapHover) 
+            unhovered Hide("displayTextScreen")
     
         
     if iDisc not in inventory: # disc
@@ -654,9 +724,10 @@ screen toilet:
             ypos 600
             idle iDisc.image_name
             hover iDisc.hover_image
-            action [Hide("displayTextScreen"), addItem(iDisc)]
-            hovered Show("displayTextScreen", displayText = DiscHover)
-            unhovered Hide("displayTextScreen")
+            if clickFlag:
+                action [Hide("displayTextScreen"), addItem(iDisc)]
+                hovered Show("displayTextScreen", displayText = DiscHover)
+                unhovered Hide("displayTextScreen")
         
     imagebutton: # Exit to hallway
         xanchor 0.5
@@ -665,9 +736,10 @@ screen toilet:
         ypos 400
         idle "inventory/empty.png"
         hover "inventory/yellow.png"
-        action Jump("hallway")
-        hovered Show("displayTextScreen", displayText = "go to hallway") 
-        unhovered Hide("displayTextScreen")
+        if clickFlag:
+            action Jump("hallway")
+            hovered Show("displayTextScreen", displayText = "go to hallway") 
+            unhovered Hide("displayTextScreen")
     
 screen gameroom:
     imagebutton: # Console
@@ -676,15 +748,16 @@ screen gameroom:
         xpos 200
         ypos 200
         idle iConsole.image_name
-        if not clue4:
+        if clickFlag:
             hover iConsole.hover_image
-            action [Hide("displayTextScreen"), Jump("ConsoleLabel")]
-            hovered Show("displayTextScreen", displayText = ConsoleHoverPre) 
-            unhovered Hide("displayTextScreen")
-        else:
-            action [Hide("displayTextScreen")]
-            hovered Show("displayTextScreen", displayText = ConsoleHoverPost)
-            unhovered Hide("displayTextScreen")
+            if not clue4:
+                action [Hide("displayTextScreen"), Jump("ConsoleLabel")]
+                hovered Show("displayTextScreen", displayText = ConsoleHoverPre) 
+                unhovered Hide("displayTextScreen")
+            else:
+                action [Hide("displayTextScreen")]
+                hovered Show("displayTextScreen", displayText = ConsoleHoverPost)
+                unhovered Hide("displayTextScreen")
             
     imagebutton: # Weedbag
         xanchor 0.5
@@ -692,15 +765,16 @@ screen gameroom:
         xpos 400
         ypos 200
         idle iWeedbag.image_name
-        if not clue5:
+        if clickFlag:
             hover iWeedbag.hover_image
-            action [Hide("displayTextScreen"), Jump("WeedbagLabel")]
-            hovered Show("displayTextScreen", displayText = WeedbagHoverPre) 
-            unhovered Hide("displayTextScreen")
-        else:
-            action [Hide("displayTextScreen")]
-            hovered Show("displayTextScreen", displayText = WeedbagHoverPost)
-            unhovered Hide("displayTextScreen")
+            if not clue5:
+                action [Hide("displayTextScreen"), Jump("WeedbagLabel")]
+                hovered Show("displayTextScreen", displayText = WeedbagHoverPre) 
+                unhovered Hide("displayTextScreen")
+            else:
+                action [Hide("displayTextScreen")]
+                hovered Show("displayTextScreen", displayText = WeedbagHoverPost)
+                unhovered Hide("displayTextScreen")
             
     imagebutton: # Stereo
         xanchor 0.5
@@ -708,15 +782,16 @@ screen gameroom:
         xpos 600
         ypos 200
         idle iStereo.image_name
-        if not clue2:
+        if clickFlag:
             hover iStereo.hover_image
-            action [Hide("displayTextScreen"), Jump("StereoLabel")]
-            hovered Show("displayTextScreen", displayText = StereoHoverPre) 
-            unhovered Hide("displayTextScreen")
-        else:
-            action [Hide("displayTextScreen")]
-            hovered Show("displayTextScreen", displayText = StereoHoverPost)
-            unhovered Hide("displayTextScreen")
+            if not clue2:
+                action [Hide("displayTextScreen"), Jump("StereoLabel")]
+                hovered Show("displayTextScreen", displayText = StereoHoverPre) 
+                unhovered Hide("displayTextScreen")
+            else:
+                action [Hide("displayTextScreen")]
+                hovered Show("displayTextScreen", displayText = StereoHoverPost)
+                unhovered Hide("displayTextScreen")
             
     imagebutton: # Alcohol
         xanchor 0.5
@@ -724,15 +799,16 @@ screen gameroom:
         xpos 200
         ypos 400
         idle iAlcohol.image_name
-        if not clue7:
+        if clickFlag:
             hover iAlcohol.hover_image
-            action [Hide("displayTextScreen"), Jump("AlcoholLabel")]
-            hovered Show("displayTextScreen", displayText = AlcoholHoverPre) 
-            unhovered Hide("displayTextScreen")
-        else:
-            action [Hide("displayTextScreen")]
-            hovered Show("displayTextScreen", displayText = AlcoholHoverPost)
-            unhovered Hide("displayTextScreen")
+            if not clue7:
+                action [Hide("displayTextScreen"), Jump("AlcoholLabel")]
+                hovered Show("displayTextScreen", displayText = AlcoholHoverPre) 
+                unhovered Hide("displayTextScreen")
+            else:
+                action [Hide("displayTextScreen")]
+                hovered Show("displayTextScreen", displayText = AlcoholHoverPost)
+                unhovered Hide("displayTextScreen")
     
     imagebutton: # Exit to hallway
         xanchor 0.5
@@ -741,9 +817,10 @@ screen gameroom:
         ypos 400
         idle "inventory/empty.png"
         hover "inventory/yellow.png"
-        action Jump("hallway")
-        hovered Show("displayTextScreen", displayText = "go to hallway") 
-        unhovered Hide("displayTextScreen")
+        if clickFlag:
+            action Jump("hallway")
+            hovered Show("displayTextScreen", displayText = "go to hallway") 
+            unhovered Hide("displayTextScreen")
 
     imagebutton: # BookPile
         xanchor 0.5
@@ -752,9 +829,10 @@ screen gameroom:
         ypos 500
         idle iBookPile.image_name
         hover iBookPile.hover_image
-        action Show("displayTextScreen", displayText = BookPileAction)
-        hovered Show("displayTextScreen", displayText = BookPileHover) 
-        unhovered Hide("displayTextScreen")
+        if clickFlag:
+            action Show("displayTextScreen", displayText = BookPileAction)
+            hovered Show("displayTextScreen", displayText = BookPileHover) 
+            unhovered Hide("displayTextScreen")
         
     imagebutton: # Prizes
         xanchor 0.5
@@ -763,9 +841,10 @@ screen gameroom:
         ypos 500
         idle iPrizes.image_name
         hover iPrizes.hover_image
-        action Show("displayTextScreen", displayText = PrizesAction)
-        hovered Show("displayTextScreen", displayText = PrizesHover) 
-        unhovered Hide("displayTextScreen")
+        if clickFlag:
+            action Show("displayTextScreen", displayText = PrizesAction)
+            hovered Show("displayTextScreen", displayText = PrizesHover) 
+            unhovered Hide("displayTextScreen")
         
     imagebutton: # Shoes
         xanchor 0.5
@@ -774,9 +853,10 @@ screen gameroom:
         ypos 500
         idle iShoes.image_name
         hover iShoes.hover_image
-        action Show("displayTextScreen", displayText = ShoesAction)
-        hovered Show("displayTextScreen", displayText = ShoesHover) 
-        unhovered Hide("displayTextScreen")
+        if clickFlag:
+            action Show("displayTextScreen", displayText = ShoesAction)
+            hovered Show("displayTextScreen", displayText = ShoesHover) 
+            unhovered Hide("displayTextScreen")
 
 
 screen hallway:
@@ -789,9 +869,10 @@ screen hallway:
             ypos 550
             idle iPick.image_name
             hover iPick.hover_image
-            action [Hide("displayTextScreen"), addItem(iPick)]
-            hovered Show("displayTextScreen", displayText = PickHover)
-            unhovered Hide("displayTextScreen")
+            if clickFlag:
+                action [Hide("displayTextScreen"), addItem(iPick)]
+                hovered Show("displayTextScreen", displayText = PickHover)
+                unhovered Hide("displayTextScreen")
         
     imagebutton: #carpet
         xanchor 0.5
@@ -799,15 +880,16 @@ screen hallway:
         xpos 600
         ypos 400
         idle iCarpet.image_name
-        if not clue0:
+        if clickFlag:
             hover iCarpet.hover_image
-            action [Hide("displayTextScreen"), Jump("CarpetLabel")]
-            hovered Show("displayTextScreen", displayText = CarpetHoverPre) 
-            unhovered Hide("displayTextScreen")
-        else:
-            action [Hide("displayTextScreen")]
-            hovered Show("displayTextScreen", displayText = CarpetHoverPost)
-            unhovered Hide("displayTextScreen")      
+            if not clue0:
+                action [Hide("displayTextScreen"), Jump("CarpetLabel")]
+                hovered Show("displayTextScreen", displayText = CarpetHoverPre) 
+                unhovered Hide("displayTextScreen")
+            else:
+                action [Hide("displayTextScreen")]
+                hovered Show("displayTextScreen", displayText = CarpetHoverPost)
+                unhovered Hide("displayTextScreen")      
             
     imagebutton: #Gameroom
         xpos 200
@@ -816,9 +898,10 @@ screen hallway:
         yanchor 0.5
         idle "inventory/empty.png"
         hover "inventory/yellow.png"
-        action Jump("gameroom")
-        hovered Show("displayTextScreen", displayText = "Go to game room") 
-        unhovered Hide("displayTextScreen")
+        if clickFlag:
+            action Jump("gameroomLabel")
+            hovered Show("displayTextScreen", displayText = "Go to game room") 
+            unhovered Hide("displayTextScreen")
         
     imagebutton: #sexroom
         xanchor 0.5
@@ -827,9 +910,10 @@ screen hallway:
         ypos 600
         idle "inventory/empty.png"
         hover "inventory/yellow.png"
-        action Jump("sexroom")
-        hovered Show("displayTextScreen", displayText = "Go to the girl's Room") 
-        unhovered Hide("displayTextScreen")
+        if clickFlag:
+            action Jump("sexroom")
+            hovered Show("displayTextScreen", displayText = "Go to the girl's Room") 
+            unhovered Hide("displayTextScreen")
     
     imagebutton:#Toilet
         xpos 745
@@ -838,9 +922,10 @@ screen hallway:
         yanchor 0.5
         idle "inventory/empty.png"
         hover "inventory/yellow.png"
-        action Jump("toilet")
-        hovered Show("displayTextScreen", displayText = "Go to the toilet.") 
-        unhovered Hide("displayTextScreen")
+        if clickFlag:
+            action Jump("toilet")
+            hovered Show("displayTextScreen", displayText = "Go to the toilet.") 
+            unhovered Hide("displayTextScreen")
 
 
 ###### SPECIAL SCREEN DEFINITIONS - DO NOT TOUCH ######

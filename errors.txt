@@ -2,8 +2,12 @@
 errors listed below, and try again.
 
 
-File "game/script.rpy", line 855: expected a keyword argument or child statement.
-    "???" "are you coming to the table?"
-    ^
+File "game/script.rpy", line 257: expected statement.
+    hide_screens()
+                  ^
+
+File "game/script.rpy", line 261: expected statement.
+    hide_screens()
+                  ^
 
 Ren'Py Version: Ren'Py 6.99.11.1749
